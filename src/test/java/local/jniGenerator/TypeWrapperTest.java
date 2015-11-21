@@ -2,6 +2,8 @@ package local.jniGenerator;
 
 import static org.junit.Assert.*;
 
+import java.lang.reflect.Method;
+
 import org.junit.Test;
 
 public class TypeWrapperTest {
@@ -32,6 +34,30 @@ public class TypeWrapperTest {
 		assertEquals("[Llocal/jniGenerator/TypeWrapperTest;", TypeWrapper.getTypeSignature(TypeWrapperTest[].class));
 		assertEquals("[J", TypeWrapper.getTypeSignature(long[].class));
 		assertEquals("[Z", TypeWrapper.getTypeSignature(boolean[].class));
+	}
+	
+	@Test
+	public void testGetJniType() {
+		assertEquals("jboolean", TypeWrapper.getJniType(boolean.class));
+		assertEquals("jbyte", TypeWrapper.getJniType(byte.class));
+		assertEquals("jchar", TypeWrapper.getJniType(char.class));
+		assertEquals("jshort", TypeWrapper.getJniType(short.class));
+		assertEquals("jint", TypeWrapper.getJniType(int.class));
+		assertEquals("jlong", TypeWrapper.getJniType(long.class));
+		assertEquals("jfloat", TypeWrapper.getJniType(float.class));
+		assertEquals("jdouble", TypeWrapper.getJniType(double.class));
+		assertEquals("void", TypeWrapper.getJniType(void.class));
+		
+		assertEquals("jstring", TypeWrapper.getJniType(String.class));
+		assertEquals("jclass", TypeWrapper.getJniType(Class.class));
+		
+		assertEquals("jobject", TypeWrapper.getJniType(Object.class));
+		assertEquals("jobject", TypeWrapper.getJniType(Integer.class));
+		assertEquals("jobject", TypeWrapper.getJniType(Method.class));
+		
+		assertEquals("jarray", TypeWrapper.getJniType(Integer[].class));
+		assertEquals("jarray", TypeWrapper.getJniType(long[].class));
+		assertEquals("jarray", TypeWrapper.getJniType(boolean[].class));
 	}
 
 }
