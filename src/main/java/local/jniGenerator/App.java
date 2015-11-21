@@ -1,5 +1,7 @@
 package local.jniGenerator;
 
+import java.lang.reflect.Method;
+
 /**
  * Hello world!
  *
@@ -8,7 +10,7 @@ public class App
 {
     public static void main( String[] args )
     {
-        Class<?> cl = String.class;
+        Class<?> cl = Method.class;
         
         TypeWrapper wrapper = new TypeWrapper(cl);
         

@@ -45,6 +45,10 @@ public class TypeWrapper {
 			{
 				result =  "D";
 			}
+			else if (cl == void.class)
+			{
+				result =  "";
+			}
 			else {
 				// TODO: throw
 				return null;
