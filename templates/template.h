@@ -1,3 +1,4 @@
+[#ftl]
 #ifndef ${macro}
 #define ${macro}
 
@@ -28,9 +29,18 @@ public:
 	 */
 	~${classname}();
 
-	<#list methods as method>
-	// TODO: Method declaration for <#if method.static>static method </#if>${method.name}
-	</#list>
+	[#list methods as method]
+	/**
+	 * @brief Calls Java method "${method.name}" on the referenced object.
+	 *
+	 * See The method's Javadoc documentation for more details.[#list method.parameters as parameter][#if parameter?is_first]
+	 *[/#if]
+	 * @param ${parameter.name} Object of java type ${parameter.javaType}[/#list]
+	 */
+	 [#if method.static]static [/#if]${method.returnType} ${method.name}([#list method.parameters as parameter]
+		 ${parameter.type} ${parameter.name}[#sep], [/#sep][/#list]);
+
+	[/#list]
 private:
 	JNIEnv *m_env;
 
