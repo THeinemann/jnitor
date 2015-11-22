@@ -12,6 +12,11 @@ public class Method {
 	{
 		return method.getName();
 	}
+	
+	public boolean isStatic()
+	{
+		return method.isStatic();
+	}
 
 	MethodWrapper method;
 }
