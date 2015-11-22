@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.lang.reflect.Method;
 
 import local.jniGenerator.exceptions.BadTypeException;
+import local.jniGenerator.wrappers.TypeWrapper;
 
 import org.junit.Rule;
 import org.junit.Test;

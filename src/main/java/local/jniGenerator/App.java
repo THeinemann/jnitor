@@ -9,6 +9,7 @@ import java.io.Writer;
 import java.lang.reflect.Method;
 
 import local.jniGenerator.model.Type;
+import local.jniGenerator.wrappers.TypeWrapper;
 import freemarker.core.ParseException;
 import freemarker.template.Configuration;
 import freemarker.template.MalformedTemplateNameException;

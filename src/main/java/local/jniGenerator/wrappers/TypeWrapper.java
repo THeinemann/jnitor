@@ -1,4 +1,4 @@
-package local.jniGenerator;
+package local.jniGenerator.wrappers;
 
 import java.lang.reflect.Method;
 
