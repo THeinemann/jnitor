@@ -29,6 +29,11 @@ public class Type {
 	
 	public String getQualifiedName()
 	{
+		return type.getWrappedClass().getName();
+	}
+	
+	public String getJniQualifiedName()
+	{
 		return type.getJniQualifiedName();
 	}
 	

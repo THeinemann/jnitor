@@ -28,7 +28,7 @@ ${classname}::~${classname}()
 	DeleteGlobalRef(env, m_ref);
 }
 
-char ${classname}::m_name = "${qualifiedName}";
+char ${classname}::m_name = "${jniQualifiedName}";
 
 [#list methods as method]
 ${method.returnType} ${classname}::${method.name}([#list method.parameters as parameter]
