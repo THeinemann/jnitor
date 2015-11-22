@@ -36,7 +36,7 @@ ${method.returnType} ${classname}::${method.name}([#list method.parameters as pa
 {
 	static const char[] name = "${method.name}";
 	static const char[] signature = "${method.signature}";
-	static const jmethodID mid = GetMethodId(m_env, m_class, signature);
+	jmethodID mid = GetMethodId(m_env, m_class, name, signature);
 
 	[#if !method.void]return [/#if]${method.jniFunction}(
 		m_env, m_ref, mid[#list method.parameters as parameter][#if parameter?is_first],
