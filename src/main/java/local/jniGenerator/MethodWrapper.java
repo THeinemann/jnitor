@@ -32,9 +32,9 @@ public class MethodWrapper {
 		return getMethodSignature(method);
 	}
 	
-	public boolean isStatic()
+	public Method getWrappedMethod()
 	{
-		return Modifier.isStatic(method.getModifiers());
+		return method;
 	}
 	
 	private final Method method;

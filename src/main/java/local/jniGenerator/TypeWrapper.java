@@ -192,6 +192,11 @@ public class TypeWrapper {
 		return getJniType(cl);
 	}
 	
+	public Class<?> getWrappedClass()
+	{
+		return cl;
+	}
+	
 	/**
 	 * Returns an array of MethodWrapper objects, which contain a wrapper for each public method of
 	 * the wrapped type.
