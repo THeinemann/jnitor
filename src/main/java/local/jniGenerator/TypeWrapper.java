@@ -2,6 +2,8 @@ package local.jniGenerator;
 
 import java.lang.reflect.Method;
 
+import local.jniGenerator.exceptions.BadTypeException;
+
 public class TypeWrapper {
 	/**
 	 * Creates a new type wrapper object for a given type
@@ -69,13 +71,12 @@ public class TypeWrapper {
 		}
 		else if (cl.isArray())
 		{
-			result =  cl.getName();
+			result =  getJniQualifiedName(cl);
 		}
 		else
 		{
-			result =  "L" + cl.getName() + ";";
+			result =  "L" + getJniQualifiedName(cl) + ";";
 		}
-		result = result.replace(".", "/");
 		return result;
 	}
 	
@@ -89,6 +90,49 @@ public class TypeWrapper {
 	public String getTypeSignature()
 	{
 		return getTypeSignature(cl);
+	}
+	
+	/**
+	 * Returns the qualified name of a class as used in JNI.
+	 * 
+	 * The qualified name in JNI uses a slash '/' instead of a dot '.' to seperate package names etc.
+	 *  
+	 * The result can be used e.g. in the JNI function findClass, to find the respective class.
+	 * 
+	 * As a qualified name is only relevant for classes, this function may never be called for a
+	 * primitive type.
+	 * 
+	 * @param cl A class object. Must not represent a primitive type
+	 * @return The qualified name 
+	 * @throws BadTypeException If called with a primitive type
+	 */
+	public static String getJniQualifiedName(Class<?> cl) throws BadTypeException
+	{
+		if (cl.isPrimitive())
+		{
+			throw new BadTypeException(cl, "Cannot get the qualified name of a primitive type.");
+		}
+			
+		
+		return cl.getName().replace(".", "/");
+	}
+	
+	/**
+	 * Returns the qualified name of the wrapped class as used in JNI.
+	 * 
+	 * The qualified name in JNI uses a slash '/' instead of a dot '.' to seperate package names etc.
+	 *  
+	 * The result can be used e.g. in the JNI function findClass, to find the respective class.
+	 * 
+	 * As a qualified name is only relevant for classes, this function may never be called on a
+	 * wrapper of a primitive type.
+	 * 
+	 * @return The qualified name 
+	 * @throws BadTypeException If called with a primitive type
+	 */
+	public String getJniQualifiedName() throws BadTypeException
+	{
+		return getJniQualifiedName(cl);
 	}
 	
 	/**
@@ -167,5 +211,5 @@ public class TypeWrapper {
 		return result;
 	}
 	
-	private Class<?> cl;
+	private final Class<?> cl;
 }
