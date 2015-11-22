@@ -60,7 +60,7 @@ public class TypeWrapper {
 			}
 			else if (cl == void.class)
 			{
-				result =  "";
+				result =  "V";
 			}
 			else {
 				// TODO: throw

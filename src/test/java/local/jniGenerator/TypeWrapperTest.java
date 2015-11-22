@@ -18,7 +18,7 @@ public class TypeWrapperTest {
 		assertEquals("J", TypeWrapper.getTypeSignature(long.class));
 		assertEquals("F", TypeWrapper.getTypeSignature(float.class));
 		assertEquals("D", TypeWrapper.getTypeSignature(double.class));
-		assertEquals("", TypeWrapper.getTypeSignature(void.class));
+		assertEquals("V", TypeWrapper.getTypeSignature(void.class));
 	}
 	
 	@Test
