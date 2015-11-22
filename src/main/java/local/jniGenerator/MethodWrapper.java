@@ -1,6 +1,7 @@
 package local.jniGenerator;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 
 public class MethodWrapper {
 	public MethodWrapper(Method method)
@@ -31,5 +32,10 @@ public class MethodWrapper {
 		return getMethodSignature(method);
 	}
 	
-	private Method method;
+	public boolean isStatic()
+	{
+		return Modifier.isStatic(method.getModifiers());
+	}
+	
+	private final Method method;
 }
