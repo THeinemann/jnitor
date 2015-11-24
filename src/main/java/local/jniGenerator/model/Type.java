@@ -2,6 +2,7 @@ package local.jniGenerator.model;
 
 import java.lang.reflect.Modifier;
 
+import local.jniGenerator.wrappers.ConstructorWrapper;
 import local.jniGenerator.wrappers.MethodWrapper;
 import local.jniGenerator.wrappers.TypeWrapper;
 
@@ -51,6 +52,18 @@ public class Type {
 		for (int i = 0; i < methods.length; ++i)
 		{
 			result[i] = new Method(methods[i]);
+		}
+		
+		return result;
+	}
+	
+	public Constructor[] getConstructors()
+	{
+		ConstructorWrapper[] constructors = type.getConstructorWrappers();
+		Constructor[] result = new Constructor[constructors.length];
+		for (int i = 0; i < constructors.length; ++i)
+		{
+			result[i] = new Constructor(constructors[i]);
 		}
 		
 		return result;
