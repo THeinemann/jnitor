@@ -4,35 +4,6 @@ import local.jniGenerator.wrappers.MethodWrapper;
 import local.jniGenerator.wrappers.TypeWrapper;
 
 public class Method {
-	public class Parameter
-	{
-		private Parameter(Class<?> type, String name)
-		{
-			this.jniType = TypeWrapper.getJniType(type);
-			this.javaType = type.getName();
-			this.name = name;
-		}
-		
-		public String getType()
-		{
-			return jniType;
-		}
-		
-		public String getJavaType()
-		{
-			return javaType;
-		}
-		
-		public String getName()
-		{
-			return name;
-		}
-		
-		private String jniType;
-		private String javaType;
-		private String name;
-	}
-	
 	public Method(MethodWrapper method) {
 		this.method = method;
 	}
@@ -70,16 +41,8 @@ public class Method {
 	
 	public Parameter[] getParameters()
 	{
-		Class<?>[] parameters = method.getWrappedMethod().getParameterTypes();
-		Parameter[] result = new Parameter[parameters.length];
-		
-		for (int i = 0; i < parameters.length; ++i)
-		{
-			result[i] = new Parameter(parameters[i], "param" + Integer.toString(i));
-		}
-		
-		return result;
+		return Parameter.fromTypeArray(method.getWrappedMethod().getParameterTypes());
 	}
 
-	MethodWrapper method;
+	private final MethodWrapper method;
 }
