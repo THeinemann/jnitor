@@ -19,8 +19,25 @@ ${classname}::${classname}(const ${classname}& other)
 	// TODO: Assertion of type
 }
 
-// TODO: Constructor definitions
+[#-- Constructors to create an object are only included for non-abstract classes.--]
+[#if !abstract]
+[#list constructors as constructor]
+// Constructor that creates a new Java object
+${classname}::${classname}(
+	JNIEnv *env,[#list constructor.parameters as parameter]
+	${parameter.type} ${parameter.name}[#sep], [/#sep][/#list])
+: m_env(env)
+, m_class(NewGlobalRef(findClass(env, m_name)))
+{
+	static const char[] signature = "${constructor.signature}";
+	jmethodID mid = GetMethodID(m_env, m_class, "<init>", signature);
+	m_ref = NewGlobalRef(NewObject(
+				env, cls, mid,
+				[#list constructor.parameters as parameter]${parameter.name}[#sep], [/#sep][/#list]));
+}
 
+[/#list]
+[/#if]
 // Destructor
 ${classname}::~${classname}()
 {
@@ -28,15 +45,13 @@ ${classname}::~${classname}()
 	DeleteGlobalRef(env, m_ref);
 }
 
-char ${classname}::m_name = "${jniQualifiedName}";
-
 [#list methods as method]
 ${method.returnType} ${classname}::${method.name}([#list method.parameters as parameter]
 	 ${parameter.type} ${parameter.name}[#sep], [/#sep][/#list]);
 {
 	static const char[] name = "${method.name}";
 	static const char[] signature = "${method.signature}";
-	jmethodID mid = GetMethodId(m_env, m_class, name, signature);
+	jmethodID mid = GetMethodID(m_env, m_class, name, signature);
 
 	[#if !method.void]return [/#if]${method.jniFunction}(
 		m_env, m_ref, mid[#list method.parameters as parameter][#if parameter?is_first],
@@ -44,3 +59,4 @@ ${method.returnType} ${classname}::${method.name}([#list method.parameters as pa
 }
 
 [/#list]
+char ${classname}::m_name = "${jniQualifiedName}";

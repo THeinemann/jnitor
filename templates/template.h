@@ -22,8 +22,21 @@ public:
 	 */
 	${classname}(const ${classname}& other);
 
-	// TODO: Constructor declarations
+	[#-- Constructors to create an object are only included for non-abstract classes.--]
+	[#if !abstract]
+	[#list constructors as constructor]
+	/**
+	 * @brief Creates a new Java object by calling the respective Java constructor.
+	 *
+	 * @param env The JNI environment to create the object in.[#list constructor.parameters as parameter]
+	 * @param ${parameter.name} Object of java type ${parameter.javaType}[/#list]
+	 */
+	${classname}(
+        JNIEnv *env,[#list constructor.parameters as parameter]
+        ${parameter.type} ${parameter.name}[#sep], [/#sep][/#list]);
 
+	[/#list]
+	[/#if]
 	/**
 	 * @brief Destructor
 	 */
@@ -37,8 +50,8 @@ public:
 	 *[/#if]
 	 * @param ${parameter.name} Object of java type ${parameter.javaType}[/#list]
 	 */
-	 [#if method.static]static [/#if]${method.returnType} ${method.name}([#list method.parameters as parameter]
-		 ${parameter.type} ${parameter.name}[#sep], [/#sep][/#list]);
+	[#if method.static]static [/#if]${method.returnType} ${method.name}([#list method.parameters as parameter]
+		${parameter.type} ${parameter.name}[#sep], [/#sep][/#list]);
 
 	[/#list]
 private:

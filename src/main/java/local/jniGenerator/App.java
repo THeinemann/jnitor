@@ -8,6 +8,7 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.lang.reflect.Method;
 
+import local.jniGenerator.model.Parameter;
 import local.jniGenerator.model.Type;
 import local.jniGenerator.wrappers.TypeWrapper;
 import freemarker.core.ParseException;
@@ -101,7 +102,7 @@ public class App
 			return;
 		}
     	
-    	Type type = new Type(new TypeWrapper(Method.class));
+    	Type type = new Type(new TypeWrapper(Parameter.class));
     	
     	try {
     		header.process(type, headerWriter);
