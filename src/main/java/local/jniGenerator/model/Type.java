@@ -1,5 +1,7 @@
 package local.jniGenerator.model;
 
+import java.lang.reflect.Modifier;
+
 import local.jniGenerator.wrappers.MethodWrapper;
 import local.jniGenerator.wrappers.TypeWrapper;
 
@@ -54,6 +56,10 @@ public class Type {
 		return result;
 	}
 	
+	public boolean isAbstract()
+	{
+		return type.isAbstract();
+	}
 	
 	private final TypeWrapper type;
 	

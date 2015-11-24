@@ -1,6 +1,7 @@
 package local.jniGenerator.wrappers;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 
 import local.jniGenerator.exceptions.BadTypeException;
 
@@ -195,6 +196,11 @@ public class TypeWrapper {
 	public Class<?> getWrappedClass()
 	{
 		return cl;
+	}
+	
+	public boolean isAbstract()
+	{
+		return cl.isInterface() || Modifier.isAbstract(cl.getModifiers());
 	}
 	
 	/**
