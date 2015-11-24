@@ -1,5 +1,6 @@
 package local.jniGenerator.wrappers;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
@@ -217,6 +218,19 @@ public class TypeWrapper {
 		
 		for (int i = 0; i < methods.length; ++i) {
 			result[i] = new MethodWrapper(methods[i]);
+		}
+		
+		return result;
+	}
+	
+	public ConstructorWrapper[] getConstructorWrappers()
+	{
+		Constructor<?>[] constructors = cl.getConstructors();
+		ConstructorWrapper[] result = new ConstructorWrapper[constructors.length];
+		
+		for (int i = 0; i < constructors.length; ++i)
+		{
+			result[i] = new ConstructorWrapper(constructors[i]);
 		}
 		
 		return result;
