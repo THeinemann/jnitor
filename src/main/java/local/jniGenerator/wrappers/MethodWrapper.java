@@ -3,7 +3,7 @@ package local.jniGenerator.wrappers;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
-public class MethodWrapper {
+public class MethodWrapper extends AbstractMethodWrapper {
 	public MethodWrapper(Method method)
 	{
 		this.method = method;
@@ -14,17 +14,8 @@ public class MethodWrapper {
 	}
 	
 	public static String getMethodSignature(Method method)
-	{
-		String result = "(";
-		
-		for (Class<?> paramClass : method.getParameterTypes())
-		{
-			result += TypeWrapper.getTypeSignature(paramClass);
-		}
-		
-		result += ")" + TypeWrapper.getTypeSignature(method.getReturnType());
-		
-		return result;
+	{	
+		return AbstractMethodWrapper.getSignatureFromTypes(method.getParameterTypes(), method.getReturnType());
 	}
 	
 	public String getMethodSignature()
