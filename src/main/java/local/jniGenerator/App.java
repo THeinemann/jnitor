@@ -28,15 +28,8 @@ public class App
     public static void main( String[] args )
     {
     	Configuration cfg = new Configuration(Configuration.VERSION_2_3_23);
-    	
-    	try {
-			cfg.setDirectoryForTemplateLoading(new File("templates"));
-		} catch (IOException e) {
-			System.out.print("Could not open templates for code generation: ");
-			System.out.println(e.getMessage());
-			e.printStackTrace();
-			return;
-		}
+
+		cfg.setClassLoaderForTemplateLoading(cfg.getClass().getClassLoader(), "/templates");
     	
     	cfg.setDefaultEncoding("UTF-8");
     	

@@ -44,7 +44,7 @@ public:
 
 	[#list methods as method]
 	/**
-	 * @brief Calls Java method "${qualifiedName}.${method.name}".
+	 * @brief Calls Java method "${qualifiedName}.${method.name}()".
 	 *
 	 * See The method's Javadoc documentation for more details.[#list method.parameters as parameter][#if parameter?is_first]
 	 *[/#if]
