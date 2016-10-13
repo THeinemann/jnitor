@@ -1,11 +1,11 @@
-package local.jniGenerator;
+package local.jnitor;
 
 import static org.junit.Assert.*;
 
 import java.lang.reflect.Method;
 
-import local.jniGenerator.exceptions.BadTypeException;
-import local.jniGenerator.wrappers.TypeWrapper;
+import local.jnitor.exceptions.BadTypeException;
+import local.jnitor.wrappers.TypeWrapper;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -39,7 +39,7 @@ public class TypeWrapperTest {
 	public void testGetTypeSignatureArray() {
 		assertEquals("[Ljava/lang/String;", TypeWrapper.getTypeSignature(String[].class));
 		assertEquals("[Ljava/lang/Integer;", TypeWrapper.getTypeSignature(Integer[].class));
-		assertEquals("[Llocal/jniGenerator/TypeWrapperTest;", TypeWrapper.getTypeSignature(TypeWrapperTest[].class));
+		assertEquals("[Llocal/jnitor/TypeWrapperTest;", TypeWrapper.getTypeSignature(TypeWrapperTest[].class));
 		assertEquals("[J", TypeWrapper.getTypeSignature(long[].class));
 		assertEquals("[Z", TypeWrapper.getTypeSignature(boolean[].class));
 	}
@@ -51,7 +51,7 @@ public class TypeWrapperTest {
 		
 		assertEquals("[Ljava/lang/String;", TypeWrapper.getJniQualifiedName(String[].class));
 		assertEquals("[Ljava/lang/Integer;", TypeWrapper.getJniQualifiedName(Integer[].class));
-		assertEquals("[Llocal/jniGenerator/TypeWrapperTest;", TypeWrapper.getJniQualifiedName(TypeWrapperTest[].class));
+		assertEquals("[Llocal/jnitor/TypeWrapperTest;", TypeWrapper.getJniQualifiedName(TypeWrapperTest[].class));
 		assertEquals("[J", TypeWrapper.getJniQualifiedName(long[].class));
 		assertEquals("[Z", TypeWrapper.getJniQualifiedName(boolean[].class));
 		

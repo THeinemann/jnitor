@@ -1,10 +1,10 @@
-package local.jniGenerator.model;
+package local.jnitor.model;
 
 import java.lang.reflect.Modifier;
 
-import local.jniGenerator.wrappers.ConstructorWrapper;
-import local.jniGenerator.wrappers.MethodWrapper;
-import local.jniGenerator.wrappers.TypeWrapper;
+import local.jnitor.wrappers.ConstructorWrapper;
+import local.jnitor.wrappers.MethodWrapper;
+import local.jnitor.wrappers.TypeWrapper;
 
 public class Type {
 

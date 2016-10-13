@@ -1,4 +1,4 @@
-package local.jniGenerator;
+package local.jnitor;
 
 import org.junit.Test;
 

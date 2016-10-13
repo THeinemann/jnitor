@@ -1,10 +1,10 @@
-package local.jniGenerator.wrappers;
+package local.jnitor.wrappers;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
-import local.jniGenerator.exceptions.BadTypeException;
+import local.jnitor.exceptions.BadTypeException;
 
 public class TypeWrapper {
 	/**

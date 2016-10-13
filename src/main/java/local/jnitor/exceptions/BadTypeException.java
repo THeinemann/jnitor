@@ -1,4 +1,4 @@
-package local.jniGenerator.exceptions;
+package local.jnitor.exceptions;
 
 public class BadTypeException extends RuntimeException {
 

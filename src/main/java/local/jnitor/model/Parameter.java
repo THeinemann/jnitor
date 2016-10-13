@@ -1,6 +1,6 @@
-package local.jniGenerator.model;
+package local.jnitor.model;
 
-import local.jniGenerator.wrappers.TypeWrapper;
+import local.jnitor.wrappers.TypeWrapper;
 
 public class Parameter {
 	public Parameter(Class<?> type, String name)

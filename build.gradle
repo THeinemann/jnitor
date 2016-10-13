@@ -7,7 +7,7 @@ apply plugin: 'google-test'
 group = 'local'
 version = '0.0.1-SNAPSHOT'
 
-description = """jniGenerator"""
+description = """jnitor - C++ wrapper generator to access Java classes via JNI"""
 
 tasks.withType(JavaCompile) {
 	options.encoding = 'UTF-8'

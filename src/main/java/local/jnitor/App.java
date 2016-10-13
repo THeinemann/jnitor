@@ -1,4 +1,4 @@
-package local.jniGenerator;
+package local.jnitor;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -8,9 +8,9 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.lang.reflect.Method;
 
-import local.jniGenerator.model.Parameter;
-import local.jniGenerator.model.Type;
-import local.jniGenerator.wrappers.TypeWrapper;
+import local.jnitor.model.Parameter;
+import local.jnitor.model.Type;
+import local.jnitor.wrappers.TypeWrapper;
 import freemarker.core.ParseException;
 import freemarker.template.Configuration;
 import freemarker.template.MalformedTemplateNameException;

@@ -1,6 +1,6 @@
-package local.jniGenerator.model;
+package local.jnitor.model;
 
-import local.jniGenerator.wrappers.ConstructorWrapper;
+import local.jnitor.wrappers.ConstructorWrapper;
 
 public class Constructor {
 	public Constructor(ConstructorWrapper constructor) {

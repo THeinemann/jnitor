@@ -1,7 +1,7 @@
-package local.jniGenerator.model;
+package local.jnitor.model;
 
-import local.jniGenerator.wrappers.MethodWrapper;
-import local.jniGenerator.wrappers.TypeWrapper;
+import local.jnitor.wrappers.MethodWrapper;
+import local.jnitor.wrappers.TypeWrapper;
 
 public class Method {
 	public Method(MethodWrapper method) {

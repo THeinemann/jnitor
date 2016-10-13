@@ -1,4 +1,4 @@
-package local.jniGenerator.wrappers;
+package local.jnitor.wrappers;
 
 public abstract class AbstractMethodWrapper {
 
