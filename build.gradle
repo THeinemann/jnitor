@@ -1,20 +1,37 @@
 apply plugin: 'java'
 apply plugin: 'maven'
 apply plugin: 'application'
+apply plugin: 'cpp'
+apply plugin: 'google-test'
 
 group = 'local'
 version = '0.0.1-SNAPSHOT'
 
 description = """jniGenerator"""
 
-sourceCompatibility = 1.5
-targetCompatibility = 1.5
 tasks.withType(JavaCompile) {
 	options.encoding = 'UTF-8'
 }
 
 mainClassName = "local.jniGenerator.App"
 
+model {
+	components {
+		integration(NativeExecutableSpec) {
+			sources {
+				
+			}
+		}
+	}
+	
+	binaries {
+		withType(GoogleTestTestSuiteBinarySpec) {
+            if (toolChain in Gcc) {
+                linker.args "-lgtest"
+            }
+		}
+	}
+}
 
 repositories {
         
