@@ -2,7 +2,7 @@ apply plugin: 'java'
 apply plugin: 'maven'
 apply plugin: 'application'
 apply plugin: 'cpp'
-apply plugin: 'google-test'
+apply plugin: 'google-test-test-suite'
 
 group = 'local'
 version = '0.0.1-SNAPSHOT'
@@ -24,6 +24,12 @@ model {
 		}
 	}
 	
+	testSuites {
+		integrationTest(GoogleTestTestSuiteSpec) {
+			testing $.components.integration
+		}
+	}
+	
 	binaries {
 		withType(GoogleTestTestSuiteBinarySpec) {
             if (toolChain in Gcc) {
@@ -31,6 +37,11 @@ model {
             }
 		}
 	}
+}
+
+// The C++ source code depends on sources generated during the JUnit tests 
+tasks.withType(CppCompile) {
+	dependsOn test
 }
 
 repositories {
