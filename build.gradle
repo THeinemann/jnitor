@@ -43,6 +43,11 @@ model {
 tasks.withType(CppCompile) {
 	dependsOn test
 }
+ 
+// Ensure tests are executed before the binaries are bundled to a jar library
+tasks.jar {
+		dependsOn check
+}
 
 repositories {
         
