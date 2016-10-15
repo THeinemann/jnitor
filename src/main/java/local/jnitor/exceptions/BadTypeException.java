@@ -1,6 +1,6 @@
 package local.jnitor.exceptions;
 
-public class BadTypeException extends JnitorException {
+public class BadTypeException extends IllegalArgumentException {
 
 	public BadTypeException(Class<?> clazz) {
 		super("Illegal use of type " + clazz.getName() + ".");

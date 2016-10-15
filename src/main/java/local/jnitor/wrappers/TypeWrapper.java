@@ -24,6 +24,7 @@ public class TypeWrapper {
 	 * 
 	 * @param cl
 	 * @return The type signature for cl.
+	 * @throws BadTypeException If cl is a primitive type not present in Java 8
 	 */
 	public static String getTypeSignature(Class<?> cl)
 	{
@@ -67,26 +68,17 @@ public class TypeWrapper {
 				result =  "V";
 			}
 			else {
-				// TODO: throw
-				return null;
+				// Should never happen, unless new primitive types are added to Java in a future version.
+				throw new BadTypeException(cl, "Unexpected primitive type");
 			}
 		}
 		else if (cl.isArray())
 		{
-			try {
-				result =  getJniQualifiedName(cl);
-			} catch (BadTypeException e) {
-				// Must not happen here, because type is not primitive.
-				throw new RuntimeException(e);
-			}
+			result =  getJniQualifiedName(cl);
 		}
 		else
 		{
-			try {
-				result =  "L" + getJniQualifiedName(cl) + ";";
-			} catch (BadTypeException e) {
-				throw new RuntimeException(e);
-			}
+			result =  "L" + getJniQualifiedName(cl) + ";";
 		}
 		return result;
 	}
@@ -117,7 +109,7 @@ public class TypeWrapper {
 	 * @return The qualified name 
 	 * @throws BadTypeException If called with a primitive type
 	 */
-	public static String getJniQualifiedName(Class<?> cl) throws BadTypeException
+	public static String getJniQualifiedName(Class<?> cl)
 	{
 		if (cl.isPrimitive())
 		{
@@ -141,7 +133,7 @@ public class TypeWrapper {
 	 * @return The qualified name 
 	 * @throws BadTypeException If called with a primitive type
 	 */
-	public String getJniQualifiedName() throws BadTypeException
+	public String getJniQualifiedName()
 	{
 		return getJniQualifiedName(cl);
 	}
