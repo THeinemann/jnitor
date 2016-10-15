@@ -2,6 +2,11 @@ package local.jnitor.exceptions;
 
 public class JnitorException extends Exception {
 
+	/**
+	 * UID for serialization format
+	 */
+	private static final long serialVersionUID = 8622566731817330917L;
+
 	public JnitorException() {
 		super();
 	}

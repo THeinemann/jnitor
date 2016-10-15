@@ -2,6 +2,11 @@ package local.jnitor.exceptions;
 
 public class InitializationException extends JnitorException {
 
+	/**
+	 * UID for serialization format
+	 */
+	private static final long serialVersionUID = 6804564306354093526L;
+
 	public InitializationException() {
 		super();
 	}
