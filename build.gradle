@@ -13,7 +13,7 @@ tasks.withType(JavaCompile) {
 	options.encoding = 'UTF-8'
 }
 
-mainClassName = "local.jniGenerator.App"
+mainClassName = "local.jnitor.Jnitor"
 
 model {
 	components {
@@ -62,7 +62,7 @@ jar {
   manifest {
     attributes(
       'Class-Path': configurations.compile.collect { it.getName() }.join(' '),
-      'Main-Class': 'local.jniGenerator.App'
+      'Main-Class': mainClassName
     )
   }
 }

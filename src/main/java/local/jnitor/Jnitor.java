@@ -23,7 +23,7 @@ import freemarker.template.TemplateNotFoundException;
  * Hello world!
  *
  */
-public class App 
+public class Jnitor 
 {
     public static void main( String[] args )
     {
