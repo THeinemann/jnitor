@@ -1,10 +1,18 @@
 package local.jnitor;
 
+import java.util.List;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.util.ArrayList;
+
+import org.kohsuke.args4j.Argument;
+import org.kohsuke.args4j.CmdLineException;
+import org.kohsuke.args4j.CmdLineParser;
+import org.kohsuke.args4j.Option;
 
 import local.jnitor.exceptions.InitializationException;
 import local.jnitor.exceptions.JnitorException;
@@ -19,7 +27,53 @@ public class Jnitor
 {
     public static void main( String[] args )
     {
-    	JnitorController jnitor;
+    	for (String arg : args) {
+    		System.out.println(arg);
+    	}
+    	
+    	Jnitor jnitor = new Jnitor();
+    	
+    	CmdLineParser parser = new CmdLineParser(jnitor);
+    	
+    	try {
+    		parser.parseArgument(args);
+    	}
+    	catch (CmdLineException e) {
+    		System.err.println(e.getMessage());
+    		System.err.println(jnitor.getClass().getName() + " -outputDirectory DIRECTORY [CLASS...]\n");
+    		
+    		parser.printUsage(System.err);
+    		System.exit(-1);;
+    	}
+    	
+    	try {
+			jnitor.checkInitialization();
+		} catch (InitializationException e) {
+			System.err.println("Error during initialization: " + e.getMessage());
+			
+			System.exit(-1);
+		}
+    	
+    	jnitor.writeSingleClass(Parameter.class);
+    	
+    }
+
+	private void checkInitialization() throws InitializationException {
+		if (outputDirectory == null) {
+			throw new InitializationException("Output directory was not set.");
+		}
+		
+		if (outputDirectory.exists() && !outputDirectory.isDirectory()) {
+			throw new InitializationException(outputDirectory.getPath() + " is not a directory.");
+		}
+		
+		if (!outputDirectory.exists()) {
+			outputDirectory.mkdir();
+		}
+	}
+
+	public void writeSingleClass(Class<?> clazz) {
+		JnitorController jnitor;
     	try {
 			jnitor = new JnitorController();
 		} catch (InitializationException e2) {
@@ -27,11 +81,13 @@ public class Jnitor
 			return;
 		}
     	
+    	final String fileNameWithoutExtension = outputDirectory.getAbsolutePath() + "/" + clazz.getName();
+    	
     	Writer headerWriter;
     	Writer sourceWriter;
 		try {
-			headerWriter = new OutputStreamWriter(new FileOutputStream("test.h"));
-			sourceWriter = new OutputStreamWriter(new FileOutputStream("test.cpp"));
+			headerWriter = new OutputStreamWriter(new FileOutputStream(fileNameWithoutExtension + ".h"));
+			sourceWriter = new OutputStreamWriter(new FileOutputStream(fileNameWithoutExtension + ".cpp"));
 		} catch (FileNotFoundException e1) {
 			e1.printStackTrace();
 			return;
@@ -39,7 +95,7 @@ public class Jnitor
     	
 		
 		try {
-			jnitor.writeWrapperSources(Parameter.class, headerWriter, sourceWriter);
+			jnitor.writeWrapperSources(clazz, headerWriter, sourceWriter);
 		} catch (JnitorException e1) {
 			e1.printStackTrace();
 			return;
@@ -52,6 +108,14 @@ public class Jnitor
 			e.printStackTrace();
 			return;
 		}
-    	
-    }
+	}
+    
+    @Option(name="-outputDirectory",
+    		usage="The directory where files are written",
+    		required=true)
+    private File outputDirectory = new File("./src");
+    
+    @Argument
+    private List<String> classNames = new ArrayList<String>();
+    
 }
