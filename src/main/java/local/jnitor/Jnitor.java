@@ -8,6 +8,8 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.lang.reflect.Method;
 
+import local.jnitor.exceptions.InitializationException;
+import local.jnitor.exceptions.JnitorException;
 import local.jnitor.model.Parameter;
 import local.jnitor.model.Type;
 import local.jnitor.wrappers.TypeWrapper;
@@ -25,9 +27,8 @@ import freemarker.template.TemplateNotFoundException;
  */
 public class Jnitor 
 {
-    public static void main( String[] args )
-    {
-    	Configuration cfg = new Configuration(Configuration.VERSION_2_3_23);
+	public Jnitor() throws InitializationException {
+    	cfg = new Configuration(Configuration.VERSION_2_3_23);
 
 		cfg.setClassLoaderForTemplateLoading(cfg.getClass().getClassLoader(), "/templates");
     	
@@ -35,55 +36,49 @@ public class Jnitor
     	
     	cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
     	
-    	Template header = null;
+    	
     	try {
-			header = cfg.getTemplate("template.h");
-		} catch (TemplateNotFoundException e) {
-			System.out.print("Could not open template for header generation: ");
-			System.out.println(e.getMessage());
-			e.printStackTrace();
-		} catch (MalformedTemplateNameException e) {
-			System.out.print("Header template name is illegal: ");
-			System.out.println(e.getMessage());
-			e.printStackTrace();
-		} catch (ParseException e) {
-			System.out.print("Could not parse template for header generation: ");
-			System.out.println(e.getMessage());
-			e.printStackTrace();
+			this.header = cfg.getTemplate("template.h");
 		} catch (IOException e) {
-			System.out.print("IO error while reading template for header generation: ");
-			System.out.println(e.getMessage());
-			e.printStackTrace();
+			throw new InitializationException(e);
 		}
     	if (header == null)
     	{
-    		return;
+    		throw new InitializationException("Template library did not return template object for header generation.");
     	}
     	
-    	Template source = null;
     	try {
 			source = cfg.getTemplate("template.cpp");
-		} catch (TemplateNotFoundException e) {
-			System.out.print("Could not open template for source (cpp) file generation: ");
-			System.out.println(e.getMessage());
-			e.printStackTrace();
-		} catch (MalformedTemplateNameException e) {
-			System.out.print("Source (cpp) file template name is illegal: ");
-			System.out.println(e.getMessage());
-			e.printStackTrace();
-		} catch (ParseException e) {
-			System.out.print("Could not parse template for source (cpp) file generation: ");
-			System.out.println(e.getMessage());
-			e.printStackTrace();
 		} catch (IOException e) {
-			System.out.print("IO error while reading template for source (cpp) file generation: ");
-			System.out.println(e.getMessage());
-			e.printStackTrace();
+			throw new InitializationException(e);
 		}
     	if (source == null)
     	{
-    		return;
+    		throw new InitializationException("Template library did not return template object for header generation.");
     	}
+    	
+	}
+	
+	public void writeWrapperSources(Class<?> clazz, Writer headerWriter, Writer sourceWriter) throws JnitorException {
+		Type type = new Type(new TypeWrapper(clazz));
+    	
+    	try {
+    		header.process(type, headerWriter);
+			source.process(type, sourceWriter);
+		} catch (TemplateException | IOException e) {
+			throw new JnitorException(e);
+		}
+	}
+	
+    public static void main( String[] args )
+    {
+    	Jnitor jnitor;
+    	try {
+			jnitor = new Jnitor();
+		} catch (InitializationException e2) {
+			e2.printStackTrace();
+			return;
+		}
     	
     	Writer headerWriter;
     	Writer sourceWriter;
@@ -95,17 +90,12 @@ public class Jnitor
 			return;
 		}
     	
-    	Type type = new Type(new TypeWrapper(Parameter.class));
-    	
-    	try {
-    		header.process(type, headerWriter);
-			source.process(type, sourceWriter);
-		} catch (TemplateException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		
+		try {
+			jnitor.writeWrapperSources(Parameter.class, headerWriter, sourceWriter);
+		} catch (JnitorException e1) {
+			e1.printStackTrace();
+			return;
 		}
     	
     	try {
@@ -113,7 +103,13 @@ public class Jnitor
 			sourceWriter.close();
 		} catch (IOException e) {
 			e.printStackTrace();
+			return;
 		}
     	
     }
+    
+    private final Configuration cfg; 
+    
+    private final Template header;
+    private final Template source;
 }
