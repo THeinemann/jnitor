@@ -1,6 +1,8 @@
 package local.jnitor.model;
 
 
+import java.util.Arrays;
+
 import local.jnitor.wrappers.ConstructorWrapper;
 import local.jnitor.wrappers.MethodWrapper;
 import local.jnitor.wrappers.TypeWrapper;
@@ -37,6 +39,12 @@ public class Type {
 	public String getJniQualifiedName()
 	{
 		return type.getJniQualifiedName();
+	}
+	
+	public String[] getPackages() {
+		String[] result = type.getWrappedClass().getName().split("\\.");
+		
+		return Arrays.copyOfRange(result, 0, result.length - 1);
 	}
 	
 	public String getMacro()

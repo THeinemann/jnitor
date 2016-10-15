@@ -3,7 +3,10 @@
 #define ${macro}
 
 #include <jni.h>
-// TODO: Namespace
+
+[#list packages as package]
+namespace ${package} {
+[/#list]
 
 class ${classname}
 {
@@ -63,5 +66,10 @@ private:
 
 	static char[] m_name;
 };
+
+[#list packages?reverse as package]
+} // namespace ${package}
+[/#list]
+
 
 #endif //${macro}

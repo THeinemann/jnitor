@@ -1,6 +1,10 @@
 [#ftl]
 #include "${headerFileName}"
 
+[#list packages as package]
+namespace ${package} {
+[/#list]
+
 // Constructor from other reference
 ${classname}::${classname}(JNIEnv *env, jobject ref)
 : m_env(env)
@@ -60,3 +64,7 @@ ${method.returnType} ${classname}::${method.name}([#list method.parameters as pa
 
 [/#list]
 char ${classname}::m_name = "${jniQualifiedName}";
+
+[#list packages?reverse as package]
+} // namespace ${package}
+[/#list]
