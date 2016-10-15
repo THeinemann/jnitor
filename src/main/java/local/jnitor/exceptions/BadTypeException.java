@@ -1,6 +1,6 @@
 package local.jnitor.exceptions;
 
-public class BadTypeException extends RuntimeException {
+public class BadTypeException extends JnitorException {
 
 	public BadTypeException(Class<?> clazz) {
 		super("Illegal use of type " + clazz.getName() + ".");
@@ -10,7 +10,6 @@ public class BadTypeException extends RuntimeException {
 	public BadTypeException(Class<?> clazz, String message) {
 		super("Illegal use of type " + clazz.getName() + ": " + message);
 		cl = clazz;
-		// TODO Auto-generated constructor stub
 	}
 	
 	public Class<?> getType(){

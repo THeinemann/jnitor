@@ -73,11 +73,20 @@ public class TypeWrapper {
 		}
 		else if (cl.isArray())
 		{
-			result =  getJniQualifiedName(cl);
+			try {
+				result =  getJniQualifiedName(cl);
+			} catch (BadTypeException e) {
+				// Must not happen here, because type is not primitive.
+				throw new RuntimeException(e);
+			}
 		}
 		else
 		{
-			result =  "L" + getJniQualifiedName(cl) + ";";
+			try {
+				result =  "L" + getJniQualifiedName(cl) + ";";
+			} catch (BadTypeException e) {
+				throw new RuntimeException(e);
+			}
 		}
 		return result;
 	}

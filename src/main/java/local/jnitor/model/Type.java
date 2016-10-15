@@ -2,6 +2,7 @@ package local.jnitor.model;
 
 import java.lang.reflect.Modifier;
 
+import local.jnitor.exceptions.BadTypeException;
 import local.jnitor.wrappers.ConstructorWrapper;
 import local.jnitor.wrappers.MethodWrapper;
 import local.jnitor.wrappers.TypeWrapper;
@@ -35,7 +36,7 @@ public class Type {
 		return type.getWrappedClass().getName();
 	}
 	
-	public String getJniQualifiedName()
+	public String getJniQualifiedName() throws BadTypeException
 	{
 		return type.getJniQualifiedName();
 	}

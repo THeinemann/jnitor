@@ -45,7 +45,7 @@ public class TypeWrapperTest {
 	}
 	
 	@Test
-	public void testGetJniQualifiedName() {
+	public void testGetJniQualifiedName() throws BadTypeException {
 		assertEquals("java/lang/String", TypeWrapper.getJniQualifiedName(String.class));
 		assertEquals("java/lang/Integer", TypeWrapper.getJniQualifiedName(Integer.class));
 		
