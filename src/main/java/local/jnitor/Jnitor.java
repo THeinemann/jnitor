@@ -1,25 +1,20 @@
 package local.jnitor;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
-import java.lang.reflect.Method;
 
 import local.jnitor.exceptions.InitializationException;
 import local.jnitor.exceptions.JnitorException;
 import local.jnitor.model.Parameter;
 import local.jnitor.model.Type;
 import local.jnitor.wrappers.TypeWrapper;
-import freemarker.core.ParseException;
 import freemarker.template.Configuration;
-import freemarker.template.MalformedTemplateNameException;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
-import freemarker.template.TemplateNotFoundException;
 
 /**
  * Hello world!
