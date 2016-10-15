@@ -54,7 +54,16 @@ public class Jnitor
 			System.exit(-1);
 		}
     	
-    	jnitor.writeSingleClass(Parameter.class);
+    	for (String className : jnitor.classNames ) {
+			try {
+				Class<?> cl = Class.forName(className);
+				jnitor.writeSingleClass(cl);
+			} catch (ClassNotFoundException e) {
+				System.err.println("Class " + className + " was not found. Will not generate sources for this class.");
+			}
+    		
+    	}
+    	
     	
     }
 

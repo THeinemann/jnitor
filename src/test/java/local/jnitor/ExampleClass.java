@@ -1,0 +1,37 @@
+package local.jnitor;
+
+/**
+ * Basic example class to generate source code on.
+ *
+ */
+public class ExampleClass {
+
+	public ExampleClass() {
+		magicNumber = 42;
+		defaultConstructed = true;
+	}
+	
+	public ExampleClass(int magicNumber) {
+		this.magicNumber = magicNumber;
+		defaultConstructed = false;
+	}
+	
+	public int getMagicNumber() {
+		return magicNumber;
+	}
+	
+	public void setMagicNumber(int magicNumber) {
+		this.magicNumber = magicNumber;
+	}
+	
+	public void resetMagicNumber() {
+		this.magicNumber = 42;
+	}
+	
+	public boolean isDefaultConstructed() {
+		return defaultConstructed;
+	}
+	
+	private int magicNumber;
+	private final boolean defaultConstructed;
+}
