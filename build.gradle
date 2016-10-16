@@ -13,6 +13,8 @@ tasks.withType(JavaCompile) {
 	options.encoding = 'UTF-8'
 }
 
+String javaHome = System.properties['java.home'] + "/.."
+
 mainClassName = "local.jnitor.Jnitor"
 
 model {
@@ -41,13 +43,18 @@ model {
 	binaries {
 		all {
             if (toolChain in Gcc) {
-            	cppCompiler.args "-I/usr/lib/jvm/java-8-openjdk/include/", "-I/usr/lib/jvm/java-8-openjdk/include/linux"
+            	cppCompiler.args "-I" + javaHome + "/include/", "-I" + javaHome+ "/include/linux"
             }
 		}
 	
 		withType(GoogleTestTestSuiteBinarySpec) {
             if (toolChain in Gcc) {
-                linker.args "-lgtest"
+            	String jniLibPath = javaHome + '/jre/lib/amd64/server'
+            	
+            	// Setting rpath in the linker argument is a bit hacky, but I deemed it acceptable,
+            	// because we are only building a test binary that will not be distributed.
+            	// TODO: If gradle supports setting the LD_LIBRARY_PATH for the linker, check if this is a better option
+                linker.args "-lgtest", '-L' + jniLibPath, '-ljvm', '-Wl,-rpath=' + jniLibPath
             }
 		}
 	}
