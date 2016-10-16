@@ -8,17 +8,17 @@ namespace ${package} {
 // Constructor from other reference
 ${classname}::${classname}(JNIEnv *env, jobject ref)
 : m_env(env)
-, m_class(NewGlobalRef(findClass(env, m_name)))
-, m_ref(NewGlobalRef(env, ref))
+, m_class(jclass(env->NewGlobalRef(env->FindClass(m_name))))
+, m_ref(env->NewGlobalRef(ref))
 {
 	// TODO: Assertion of type
 }
 
 // Constructor from other reference
 ${classname}::${classname}(const ${classname}& other)
-: m_env(other.env)
-, m_class(NewGlobalRef(findClass(env, m_name)))
-, m_ref(NewGlobalRef(other.env, other.ref))
+: m_env(other.m_env)
+, m_class(jclass(other.m_env->NewGlobalRef(other.m_env->FindClass(m_name))))
+, m_ref(other.m_env->NewGlobalRef(other.m_ref))
 {
 	// TODO: Assertion of type
 }
@@ -28,16 +28,16 @@ ${classname}::${classname}(const ${classname}& other)
 [#list constructors as constructor]
 // Constructor that creates a new Java object
 ${classname}::${classname}(
-	JNIEnv *env,[#list constructor.parameters as parameter]
-	${parameter.type} ${parameter.name}[#sep], [/#sep][/#list])
+	JNIEnv *env[#list constructor.parameters as parameter][#if parameter?is_first],
+	[/#if]${parameter.type} ${parameter.name}[#sep], [/#sep][/#list])
 : m_env(env)
-, m_class(NewGlobalRef(findClass(env, m_name)))
+, m_class(jclass(env->NewGlobalRef(env->FindClass(m_name))))
 {
-	static const char[] signature = "${constructor.signature}";
-	jmethodID mid = GetMethodID(m_env, m_class, "<init>", signature);
-	m_ref = NewGlobalRef(NewObject(
-				env, cls, mid,
-				[#list constructor.parameters as parameter]${parameter.name}[#sep], [/#sep][/#list]));
+	static const char signature[] = "${constructor.signature}";
+	jmethodID mid = m_env->GetMethodID(m_class, "<init>", signature);
+	m_ref = m_env->NewGlobalRef(m_env->NewObject(
+				m_class, mid[#list constructor.parameters as parameter][#if parameter?is_first],
+				[/#if]${parameter.name}[#sep], [/#sep][/#list]));
 }
 
 [/#list]
@@ -45,25 +45,25 @@ ${classname}::${classname}(
 // Destructor
 ${classname}::~${classname}()
 {
-	DeleteGlobalRef(env, m_class);
-	DeleteGlobalRef(env, m_ref);
+	m_env->DeleteGlobalRef(m_class);
+	m_env->DeleteGlobalRef(m_ref);
 }
 
 [#list methods as method]
 ${method.returnType} ${classname}::${method.name}([#list method.parameters as parameter]
-	 ${parameter.type} ${parameter.name}[#sep], [/#sep][/#list]);
+	 ${parameter.type} ${parameter.name}[#sep], [/#sep][/#list])
 {
-	static const char[] name = "${method.name}";
-	static const char[] signature = "${method.signature}";
-	jmethodID mid = GetMethodID(m_env, m_class, name, signature);
+	static const char name[] = "${method.name}";
+	static const char signature[] = "${method.signature}";
+	jmethodID mid = m_env->GetMethodID(m_class, name, signature);
 
-	[#if !method.void]return [/#if]${method.jniFunction}(
-		m_env, m_ref, mid[#list method.parameters as parameter][#if parameter?is_first],
-		[/#if]${parameter.name}[#sep], [/#sep][/#list]);
+	[#if !method.void]return ${method.returnType}[/#if](m_env->${method.jniFunction}(
+		m_ref, mid[#list method.parameters as parameter][#if parameter?is_first],
+		[/#if]${parameter.name}[#sep], [/#sep][/#list]));
 }
 
 [/#list]
-char ${classname}::m_name = "${jniQualifiedName}";
+const char* const ${classname}::m_name = "${jniQualifiedName}";
 
 [#list packages?reverse as package]
 } // namespace ${package}

@@ -28,7 +28,7 @@ public class Type {
 	
 	public String getHeaderFileName()
 	{
-		return getClassname().toLowerCase() + ".h";
+		return getQualifiedName() + ".h";
 	}
 	
 	public String getQualifiedName()

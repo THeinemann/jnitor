@@ -35,8 +35,8 @@ public:
 	 * @param ${parameter.name} Object of java type ${parameter.javaType}[/#list]
 	 */
 	${classname}(
-        JNIEnv *env,[#list constructor.parameters as parameter]
-        ${parameter.type} ${parameter.name}[#sep], [/#sep][/#list]);
+        JNIEnv *env[#list constructor.parameters as parameter][#if parameter?is_first],
+		[/#if]${parameter.type} ${parameter.name}[#sep], [/#sep][/#list]);
 
 	[/#list]
 	[/#if]
@@ -64,7 +64,7 @@ private:
 
 	jobject m_ref;
 
-	static char[] m_name;
+	static const char* const m_name;
 };
 
 [#list packages?reverse as package]

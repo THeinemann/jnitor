@@ -29,5 +29,6 @@ public class JnitorTest
     {
     	String[] parameters = {"-outputDirectory", "./build/generatedTestSources", "local.jnitor.ExampleClass"};
         Jnitor.main(parameters);
+        
     }
 }

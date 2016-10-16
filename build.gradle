@@ -17,10 +17,18 @@ mainClassName = "local.jnitor.Jnitor"
 
 model {
 	components {
-		integration(NativeExecutableSpec) {
+		integration(NativeLibrarySpec) {
 			sources {
-				
-			}
+				cpp {
+					source {			
+						srcDir "build/generatedTestSources"
+						include "**/*.cpp"
+					}
+					exportedHeaders {
+		                srcDir "build/generatedTestSources"
+		            }
+	            }
+            }
 		}
 	}
 	
@@ -31,6 +39,12 @@ model {
 	}
 	
 	binaries {
+		all {
+            if (toolChain in Gcc) {
+            	cppCompiler.args "-I/usr/lib/jvm/java-8-openjdk/include/", "-I/usr/lib/jvm/java-8-openjdk/include/linux"
+            }
+		}
+	
 		withType(GoogleTestTestSuiteBinarySpec) {
             if (toolChain in Gcc) {
                 linker.args "-lgtest"
