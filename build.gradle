@@ -22,6 +22,8 @@ model {
 		integration(NativeLibrarySpec) {
 			sources {
 				cpp {
+					// Integration test sources are created from the JUnit test.
+					builtBy tasks.test
 					source {			
 						srcDir "build/generatedTestSources"
 						include "**/*.cpp"
@@ -58,11 +60,6 @@ model {
             }
 		}
 	}
-}
-
-// The C++ source code depends on sources generated during the JUnit tests 
-tasks.withType(CppCompile) {
-	dependsOn test
 }
  
 // Ensure tests are executed before the binaries are bundled to a jar library
