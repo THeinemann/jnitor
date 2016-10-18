@@ -1,4 +1,4 @@
-package local.jnitor;
+package local.jnitor.wrappers;
 
 import static org.junit.Assert.*;
 
@@ -39,7 +39,7 @@ public class TypeWrapperTest {
 	public void testGetTypeSignatureArray() {
 		assertEquals("[Ljava/lang/String;", TypeWrapper.getTypeSignature(String[].class));
 		assertEquals("[Ljava/lang/Integer;", TypeWrapper.getTypeSignature(Integer[].class));
-		assertEquals("[Llocal/jnitor/TypeWrapperTest;", TypeWrapper.getTypeSignature(TypeWrapperTest[].class));
+		assertEquals("[Llocal/jnitor/wrappers/TypeWrapperTest;", TypeWrapper.getTypeSignature(TypeWrapperTest[].class));
 		assertEquals("[J", TypeWrapper.getTypeSignature(long[].class));
 		assertEquals("[Z", TypeWrapper.getTypeSignature(boolean[].class));
 	}
@@ -51,7 +51,7 @@ public class TypeWrapperTest {
 		
 		assertEquals("[Ljava/lang/String;", TypeWrapper.getJniQualifiedName(String[].class));
 		assertEquals("[Ljava/lang/Integer;", TypeWrapper.getJniQualifiedName(Integer[].class));
-		assertEquals("[Llocal/jnitor/TypeWrapperTest;", TypeWrapper.getJniQualifiedName(TypeWrapperTest[].class));
+		assertEquals("[Llocal/jnitor/wrappers/TypeWrapperTest;", TypeWrapper.getJniQualifiedName(TypeWrapperTest[].class));
 		assertEquals("[J", TypeWrapper.getJniQualifiedName(long[].class));
 		assertEquals("[Z", TypeWrapper.getJniQualifiedName(boolean[].class));
 		

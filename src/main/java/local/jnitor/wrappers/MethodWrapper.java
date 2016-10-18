@@ -33,16 +33,23 @@ public class MethodWrapper extends AbstractMethodWrapper {
 		String result = "";
 		Class<?> cl = method.getReturnType();
 		
+		String prefix = null;
+		if (isStatic()) {
+			prefix = "CallStatic";
+		} else {
+			prefix = "Call";
+		}
+		
 		if (cl.isPrimitive())
 		{
 			String methodName = cl.getName();
 			methodName = methodName.substring(0, 1).toUpperCase()
 					   + methodName.substring(1);
-			result = "Call" + methodName + "Method";
+			result = prefix + methodName + "Method";
 		}
 		else
 		{
-			result = "CallObjectMethod";
+			result = prefix + "ObjectMethod";
 		}
 		
 		return result;

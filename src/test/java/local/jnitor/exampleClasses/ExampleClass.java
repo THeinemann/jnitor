@@ -40,6 +40,10 @@ public class ExampleClass {
 		return new ExampleInterfaceImpl();
 	}
 	
+	public static double getSquareRoot(double x) {
+		return Math.sqrt(x);
+	}
+	
 	private int magicNumber;
 	private final boolean defaultConstructed;
 }

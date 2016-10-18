@@ -50,13 +50,20 @@ ${classname}::~${classname}()
 }
 
 [#list methods as method]
-${method.returnType} ${classname}::${method.name}([#list method.parameters as parameter]
+${method.returnType} ${classname}::${method.name}([#if method.static]JNIEnv *m_env, [/#if][#list method.parameters as parameter]
 	 ${parameter.type} ${parameter.name}[#sep], [/#sep][/#list])
 {
 	static const char name[] = "${method.name}";
 	static const char signature[] = "${method.signature}";
-	jmethodID mid = m_env->GetMethodID(m_class, name, signature);
 
+	[#if method.static]
+	[#-- For static methods, these values have to be retrieved (because we have no object here) --]
+	jclass m_class = m_env->FindClass(m_name);
+	jclass m_ref = m_class;
+
+	[/#if]
+
+	jmethodID mid = m_env->Get[#if method.static]Static[/#if]MethodID(m_class, name, signature);
 	[#if !method.void]return ${method.returnType}[/#if](m_env->${method.jniFunction}(
 		m_ref, mid[#list method.parameters as parameter][#if parameter?is_first],
 		[/#if]${parameter.name}[#sep], [/#sep][/#list]));

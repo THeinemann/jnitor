@@ -68,3 +68,7 @@ TEST(jnitorTest, interfaceTest) {
 
 	ASSERT_EQ(144, exampleInterfaceObject.doSomething(12));
 }
+
+TEST(jnitorTest, staticMethodTest) {
+	ASSERT_DOUBLE_EQ(20.0, local::jnitor::exampleClasses::ExampleClass::getSquareRoot(env, 400.0));
+}

@@ -53,7 +53,7 @@ public:
 	 *[/#if]
 	 * @param ${parameter.name} Object of java type ${parameter.javaType}[/#list]
 	 */
-	[#if method.static]static [/#if]${method.returnType} ${method.name}([#list method.parameters as parameter]
+	[#if method.static]static [/#if]${method.returnType} ${method.name}([#if method.static]JNIEnv *env, [/#if][#list method.parameters as parameter]
 		${parameter.type} ${parameter.name}[#sep], [/#sep][/#list]);
 
 	[/#list]
