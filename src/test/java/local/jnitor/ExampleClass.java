@@ -32,6 +32,10 @@ public class ExampleClass {
 		return defaultConstructed;
 	}
 	
+	public ExampleClass negate() {
+		return new ExampleClass(-magicNumber);
+	}
+	
 	private int magicNumber;
 	private final boolean defaultConstructed;
 }

@@ -42,3 +42,14 @@ TEST(jnitorTest, exampleClassTest) {
 	exampleObject.setMagicNumber(23);
 	ASSERT_EQ(23, exampleObject.getMagicNumber());
 }
+
+TEST(jnitorTest, negateTest) {
+	local::jnitor::ExampleClass exampleObject(env, 1337);
+
+
+	ASSERT_EQ(1337, exampleObject.getMagicNumber());
+
+	local::jnitor::ExampleClass negatedExampleObject(env, exampleObject.negate());
+
+	ASSERT_EQ(-1337, negatedExampleObject.getMagicNumber());
+}
