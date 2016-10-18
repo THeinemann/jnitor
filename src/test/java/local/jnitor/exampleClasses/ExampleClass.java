@@ -1,4 +1,4 @@
-package local.jnitor;
+package local.jnitor.exampleClasses;
 
 /**
  * Basic example class to generate source code on.
@@ -34,6 +34,10 @@ public class ExampleClass {
 	
 	public ExampleClass negate() {
 		return new ExampleClass(-magicNumber);
+	}
+	
+	public ExampleInterface getExampleInterface() {
+		return new ExampleInterfaceImpl();
 	}
 	
 	private int magicNumber;

@@ -4,7 +4,8 @@
 
 #include <cstdlib>
 
-#include <local.jnitor.ExampleClass.h>
+#include <local.jnitor.exampleClasses.ExampleClass.h>
+#include <local.jnitor.exampleClasses.ExampleInterface.h>
 #include <jni.h>
 
 
@@ -33,8 +34,8 @@ int main(int argc, char** argv) {
 	return result;
 }
 
-TEST(jnitorTest, exampleClassTest) {
-	local::jnitor::ExampleClass exampleObject(env);
+TEST(jnitorTest, createObjectTest) {
+	local::jnitor::exampleClasses::ExampleClass exampleObject(env);
 
 
 	ASSERT_EQ(42, exampleObject.getMagicNumber());
@@ -43,13 +44,27 @@ TEST(jnitorTest, exampleClassTest) {
 	ASSERT_EQ(23, exampleObject.getMagicNumber());
 }
 
-TEST(jnitorTest, negateTest) {
-	local::jnitor::ExampleClass exampleObject(env, 1337);
+/**
+ * This test checks that a Java object returned by a method can be wrapped correctly
+ */
+TEST(jnitorTest, receiveObjectTest) {
+	local::jnitor::exampleClasses::ExampleClass exampleObject(env, 1337);
 
 
 	ASSERT_EQ(1337, exampleObject.getMagicNumber());
 
-	local::jnitor::ExampleClass negatedExampleObject(env, exampleObject.negate());
+	local::jnitor::exampleClasses::ExampleClass negatedExampleObject(env, exampleObject.negate());
 
 	ASSERT_EQ(-1337, negatedExampleObject.getMagicNumber());
+}
+
+/**
+ * This test checks that a Java object can be accessed through an interface wrapper (instead of an implementation class wrapper)
+ */
+TEST(jnitorTest, interfaceTest) {
+	local::jnitor::exampleClasses::ExampleClass exampleObject(env);
+
+	local::jnitor::exampleClasses::ExampleInterface exampleInterfaceObject(env, exampleObject.getExampleInterface());
+
+	ASSERT_EQ(144, exampleInterfaceObject.doSomething(12));
 }
