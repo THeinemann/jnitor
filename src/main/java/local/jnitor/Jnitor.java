@@ -27,10 +27,6 @@ public class Jnitor
 {
     public static void main( String[] args )
     {
-    	for (String arg : args) {
-    		System.out.println(arg);
-    	}
-    	
     	Jnitor jnitor = new Jnitor();
     	
     	CmdLineParser parser = new CmdLineParser(jnitor);
