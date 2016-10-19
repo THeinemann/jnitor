@@ -6,6 +6,14 @@ import java.lang.reflect.Modifier;
 
 import com.github.theinemann.jnitor.exceptions.BadTypeException;
 
+/**
+ * Wrapper class around a reflection class object.
+ * 
+ * Also covers primitive types.
+ * 
+ * @author Thomas Heinemann
+ *
+ */
 public class TypeWrapper {
 	/**
 	 * Creates a new type wrapper object for a given type

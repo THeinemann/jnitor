@@ -15,6 +15,9 @@ import freemarker.template.TemplateExceptionHandler;
 
 /**
  * Class to control the source code generation for given classes.
+ * 
+ * @author Thomas Heinemann
+ * 
  */
 public class JnitorController {
 

@@ -2,6 +2,12 @@ package com.github.theinemann.jnitor.wrappers;
 
 import java.lang.reflect.Constructor;
 
+/**
+ * Wrapper class around a reflection constructor object.
+ * 
+ * @author Thomas Heinemann
+ *
+ */
 public class ConstructorWrapper extends AbstractMethodWrapper {
 
 	public ConstructorWrapper(Constructor<?> constructor) {

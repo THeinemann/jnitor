@@ -3,6 +3,12 @@ package com.github.theinemann.jnitor.wrappers;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
+/**
+ * Wrapper class around a reflection method object.
+ * 
+ * @author Thomas Heinemann
+ *
+ */
 public class MethodWrapper extends AbstractMethodWrapper {
 	public MethodWrapper(Method method)
 	{

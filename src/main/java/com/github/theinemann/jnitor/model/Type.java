@@ -7,6 +7,12 @@ import com.github.theinemann.jnitor.wrappers.ConstructorWrapper;
 import com.github.theinemann.jnitor.wrappers.MethodWrapper;
 import com.github.theinemann.jnitor.wrappers.TypeWrapper;
 
+/**
+ * Model class to provide information about types (classes and primitive types) to the engine. 
+ * 
+ * @author Thomas Heinemann
+ *
+ */
 public class Type {
 
 	public Type(TypeWrapper type) {

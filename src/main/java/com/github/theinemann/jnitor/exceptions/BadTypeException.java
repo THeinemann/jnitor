@@ -1,5 +1,15 @@
 package com.github.theinemann.jnitor.exceptions;
 
+/**
+ * Exception class to be thrown when a type does not fulfill some requirements.
+ * 
+ * This may be e.g. when a method that expects an object type receives a primitive type. The types
+ * typically are represented either by reflection objects, or objects like TypeWrapper from the Jnitor
+ * code base.
+ * 
+ * @author Thomas Heinemann
+ *
+ */
 public class BadTypeException extends IllegalArgumentException {
 
 	/**

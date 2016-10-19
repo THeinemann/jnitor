@@ -1,5 +1,11 @@
 package com.github.theinemann.jnitor.exceptions;
 
+/**
+ * Exception that is thrown when the initialization of the Jnitor program fails.
+ * 
+ * @author Thomas Heinemann
+ *
+ */
 public class InitializationException extends JnitorException {
 
 	/**

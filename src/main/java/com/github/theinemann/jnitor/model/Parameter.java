@@ -2,6 +2,12 @@ package com.github.theinemann.jnitor.model;
 
 import com.github.theinemann.jnitor.wrappers.TypeWrapper;
 
+/**
+ * Model class to provide information about method parameters to the templating engine. 
+ * 
+ * @author Thomas Heinemann
+ *
+ */
 public class Parameter {
 	public Parameter(Class<?> type, String name)
 	{

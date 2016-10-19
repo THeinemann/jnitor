@@ -3,6 +3,12 @@ package com.github.theinemann.jnitor.model;
 import com.github.theinemann.jnitor.wrappers.MethodWrapper;
 import com.github.theinemann.jnitor.wrappers.TypeWrapper;
 
+/**
+ * Model class to provide information about methods to the engine.
+ * 
+ * @author Thomas Heinemann
+ *
+ */
 public class Method {
 	public Method(MethodWrapper method) {
 		this.method = method;

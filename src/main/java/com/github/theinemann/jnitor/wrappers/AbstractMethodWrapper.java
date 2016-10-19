@@ -1,5 +1,11 @@
 package com.github.theinemann.jnitor.wrappers;
 
+/**
+ * Abstract base class to provide functionality for all kinds of methods ("Normal" methods and constructors)
+ * 
+ * @author Thomas Heinemann
+ *
+ */
 public abstract class AbstractMethodWrapper {
 
 	public AbstractMethodWrapper() {

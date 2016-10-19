@@ -22,6 +22,9 @@ import com.github.theinemann.jnitor.model.Parameter;
  * Main class for Jnitor program.
  *
  * Contains the command line interface.
+ * 
+ * @author Thomas Heinemann
+ * 
  */
 public class Jnitor 
 {

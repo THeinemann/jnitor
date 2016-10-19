@@ -1,5 +1,11 @@
 package com.github.theinemann.jnitor.exceptions;
 
+/**
+ * Base class for checked Jnitor exceptions
+ * 
+ * @author Thomas Heinemann
+ *
+ */
 public class JnitorException extends Exception {
 
 	/**
