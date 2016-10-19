@@ -4,8 +4,8 @@
 
 #include <cstdlib>
 
-#include <local.jnitor.exampleClasses.ExampleClass.h>
-#include <local.jnitor.exampleClasses.ExampleInterface.h>
+#include <com.github.theinemann.jnitor.exampleClasses.ExampleClass.h>
+#include <com.github.theinemann.jnitor.exampleClasses.ExampleInterface.h>
 #include <jni.h>
 
 
@@ -35,7 +35,7 @@ int main(int argc, char** argv) {
 }
 
 TEST(jnitorTest, createObjectTest) {
-	local::jnitor::exampleClasses::ExampleClass exampleObject(env);
+	com::github::theinemann::jnitor::exampleClasses::ExampleClass exampleObject(env);
 
 
 	ASSERT_EQ(42, exampleObject.getMagicNumber());
@@ -48,12 +48,12 @@ TEST(jnitorTest, createObjectTest) {
  * This test checks that a Java object returned by a method can be wrapped correctly
  */
 TEST(jnitorTest, receiveObjectTest) {
-	local::jnitor::exampleClasses::ExampleClass exampleObject(env, 1337);
+	com::github::theinemann::jnitor::exampleClasses::ExampleClass exampleObject(env, 1337);
 
 
 	ASSERT_EQ(1337, exampleObject.getMagicNumber());
 
-	local::jnitor::exampleClasses::ExampleClass negatedExampleObject(env, exampleObject.negate());
+	com::github::theinemann::jnitor::exampleClasses::ExampleClass negatedExampleObject(env, exampleObject.negate());
 
 	ASSERT_EQ(-1337, negatedExampleObject.getMagicNumber());
 }
@@ -62,13 +62,13 @@ TEST(jnitorTest, receiveObjectTest) {
  * This test checks that a Java object can be accessed through an interface wrapper (instead of an implementation class wrapper)
  */
 TEST(jnitorTest, interfaceTest) {
-	local::jnitor::exampleClasses::ExampleClass exampleObject(env);
+	com::github::theinemann::jnitor::exampleClasses::ExampleClass exampleObject(env);
 
-	local::jnitor::exampleClasses::ExampleInterface exampleInterfaceObject(env, exampleObject.getExampleInterface());
+	com::github::theinemann::jnitor::exampleClasses::ExampleInterface exampleInterfaceObject(env, exampleObject.getExampleInterface());
 
 	ASSERT_EQ(144, exampleInterfaceObject.doSomething(12));
 }
 
 TEST(jnitorTest, staticMethodTest) {
-	ASSERT_DOUBLE_EQ(20.0, local::jnitor::exampleClasses::ExampleClass::getSquareRoot(env, 400.0));
+	ASSERT_DOUBLE_EQ(20.0, com::github::theinemann::jnitor::exampleClasses::ExampleClass::getSquareRoot(env, 400.0));
 }

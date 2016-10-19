@@ -4,7 +4,7 @@ apply plugin: 'application'
 apply plugin: 'cpp'
 apply plugin: 'google-test-test-suite'
 
-group = 'local'
+group = 'com.github.theinemann.jnitor'
 version = '0.0.1-SNAPSHOT'
 
 description = """jnitor - C++ wrapper generator to access Java classes via JNI"""
@@ -15,7 +15,7 @@ tasks.withType(JavaCompile) {
 
 String javaHome = System.properties['java.home'] + "/.."
 
-mainClassName = "local.jnitor.Jnitor"
+mainClassName = "com.github.theinemann.jnitor.Jnitor"
 
 model {
 	components {
