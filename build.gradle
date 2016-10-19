@@ -81,7 +81,17 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version:'4.12'
 }
 
+// Add license and readme file to the distribution 
+distributions {
+	main {
+		contents {
+			from 'LICENSE', 'README'
+		}
+	}
+}
+
 jar {
+  from 'LICENSE', 'README'
   manifest {
     attributes(
       'Class-Path': configurations.compile.collect { it.getName() }.join(' '),
