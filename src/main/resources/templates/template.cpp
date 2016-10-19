@@ -1,4 +1,24 @@
 [#ftl]
+[#--
+Copyright 2016 Thomas Heinemann
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+--]
+/* Warning: This file is generated.
+ * Do not change it unless you know exactly what you are doing.
+ * All your changes will be overwritten when this file is re-generated.
+ */
+
 #include "${headerFileName}"
 
 [#list packages as package]
