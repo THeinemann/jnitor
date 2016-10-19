@@ -232,6 +232,13 @@ public class TypeWrapper {
 		return result;
 	}
 	
+	/**
+	 * Returns an array of ConstructorWrapper objects, which contain a wrapper for each public constructor of
+	 * the wrapped type.
+	 * 
+	 * @return An array of ConstructorWrapper objects, which contain a wrapper for each public constructor of
+	 * the wrapped type. 
+	 */
 	public ConstructorWrapper[] getConstructorWrappers()
 	{
 		Constructor<?>[] constructors = cl.getConstructors();
