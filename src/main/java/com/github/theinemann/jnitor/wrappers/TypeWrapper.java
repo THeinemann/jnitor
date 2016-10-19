@@ -30,7 +30,7 @@ public class TypeWrapper {
 	 * 
 	 * See the JNI documentation for the specification of the type signature.
 	 * 
-	 * @param cl
+	 * @param cl The class object to be wrapped.
 	 * @return The type signature for cl.
 	 * @throws BadTypeException If cl is a primitive type not present in Java 8
 	 */
