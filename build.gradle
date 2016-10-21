@@ -27,6 +27,8 @@ model {
 					source {			
 						srcDir "build/generatedTestSources"
 						include "**/*.cpp"
+						
+						lib project: ':gtest', library: 'googleTest'
 					}
 					exportedHeaders {
 		                srcDir "build/generatedTestSources"
@@ -56,7 +58,7 @@ model {
             	// Setting rpath in the linker argument is a bit hacky, but I deemed it acceptable,
             	// because we are only building a test binary that will not be distributed.
             	// TODO: If gradle supports setting the LD_LIBRARY_PATH for the linker, check if this is a better option
-                linker.args "-lgtest", '-L' + jniLibPath, '-ljvm', '-Wl,-rpath=' + jniLibPath
+                linker.args '-L' + jniLibPath, '-ljvm', '-Wl,-rpath=' + jniLibPath
             }
 		}
 	}

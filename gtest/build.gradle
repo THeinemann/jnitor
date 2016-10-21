@@ -1,0 +1,51 @@
+apply plugin: 'cpp'
+
+task initializeGoogleTestRepository(type:Exec) {
+	workingDir '..'
+	
+	commandLine 'git', 'submodule', 'init', 'gtest/googletest'
+}
+
+task updateGoogleTestRepository(type:Exec) {
+	workingDir '..'
+	
+	dependsOn(initializeGoogleTestRepository)
+	
+	commandLine 'git', 'submodule', 'update',  '--force', 'gtest/googletest'
+}
+
+task deinitGoogleTestRepository(type:Exec) {
+	workingDir '..'
+	
+	dependsOn(initializeGoogleTestRepository)
+	
+	commandLine 'git', 'submodule', 'deinit',  '--force', 'gtest/googletest'
+}
+
+tasks.clean {
+	dependsOn deinitGoogleTestRepository
+}
+
+
+// Simple Gradle build script to build google test from sources.
+model {
+	components {
+		googleTest(NativeLibrarySpec) {
+			sources {
+				cpp {
+					// Sources have to be retrieved by git before they can be built
+					builtBy tasks.updateGoogleTestRepository
+					
+					source {			
+						srcDir "googletest/googletest/src"
+						include "gtest-all.cc"
+					}
+					exportedHeaders {
+		                srcDir "googletest/googletest/include/gtest" 
+		                srcDir "googletest/googletest" 
+		            }
+	            }
+            }
+		}
+	}
+}
