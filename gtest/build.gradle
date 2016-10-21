@@ -42,10 +42,16 @@ model {
 					}
 															
 					exportedHeaders { 
-		                srcDir "googletest/googletest"
+		                srcDir "googletest/googletest/include"
 		            }
 	            }
             }
 		}
 	}
 }
+
+// Some includes need this directory. 
+tasks.withType(CppCompile) {
+	includes "googletest/googletest"
+}
+

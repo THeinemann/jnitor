@@ -15,7 +15,7 @@
  */
 
 #include <iostream>
-#include <include/gtest/gtest.h>
+#include <gtest/gtest.h>
 
 #include <cstdlib>
 
