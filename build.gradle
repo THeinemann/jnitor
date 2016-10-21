@@ -28,7 +28,7 @@ model {
 						srcDir "build/generatedTestSources"
 						include "**/*.cpp"
 						
-						lib project: ':gtest', library: 'googleTest'
+						
 					}
 					exportedHeaders {
 		                srcDir "build/generatedTestSources"
@@ -40,8 +40,16 @@ model {
 	
 	testSuites {
 		integrationTest(GoogleTestTestSuiteSpec) {
-			testing $.components.integration
+			testing $.components.integration			
+			
+			sources {
+				cpp {
+					lib project: ':gtest', library: 'googleTest'
+				}
+			}
 		}
+		
+
 	}
 	
 	binaries {

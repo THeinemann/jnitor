@@ -40,9 +40,9 @@ model {
 						srcDir "googletest/googletest/src"
 						include "gtest-all.cc"
 					}
-					exportedHeaders {
-		                srcDir "googletest/googletest/include/gtest" 
-		                srcDir "googletest/googletest" 
+															
+					exportedHeaders { 
+		                srcDir "googletest/googletest"
 		            }
 	            }
             }
