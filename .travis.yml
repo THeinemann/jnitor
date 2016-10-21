@@ -1,0 +1,7 @@
+language:
+- java
+- cpp
+
+install: true
+
+script: ./gradlew check
