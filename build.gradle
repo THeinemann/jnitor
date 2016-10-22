@@ -21,7 +21,7 @@ if (System.properties['os.name'].toUpperCase().contains('WINDOWS')) {
 	os = System.properties['os.name'].toLowerCase()
 }
 
-String javaHome = System.properties['java.home'] + "/.."
+String javaHome = System.properties['java.home'] + System.properties['file.separator'] + ".."
 
 mainClassName = "com.github.theinemann.jnitor.Jnitor"
 
@@ -95,6 +95,14 @@ model {
 				
 				linker.args '/LIBPATH:' + jniDllPath, jniLibPath + '/jvm.lib', jniLibPath + '/jawt.lib'
 			}
+		}
+	}
+	
+	tasks.runIntegrationTestGoogleTestExe {
+		if (os == 'win32') {
+			// We have to make sure that the jvm.dll file is in the PATH, therefore we explicitly add it:
+			String oldPath = System.getenv('PATH')
+			environment 'PATH', javaHome + '\\jre\\bin\\server' + System.properties['path.separator'] + oldPath
 		}
 	}
 }
