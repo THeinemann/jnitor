@@ -13,13 +13,36 @@ tasks.withType(JavaCompile) {
 	options.encoding = 'UTF-8'
 }
 
+String os;
+
+if (System.properties['os.name'].toUpperCase().contains('WINDOWS')) {
+	os = "win32"
+} else {
+	os = System.properties['java.os'].toLowerCase()
+}
+
 String javaHome = System.properties['java.home'] + "/.."
 
 mainClassName = "com.github.theinemann.jnitor.Jnitor"
 
 model {
+    platforms {
+        x86 {
+            architecture "x86"
+        }
+        x64 {
+            architecture "x86_64"
+        }
+    }
+
 	components {
 		integration(NativeLibrarySpec) {
+			if (System.properties['java.home'] != 'amd64') {
+				targetPlatform "x64"
+			} else {
+				targetPlatform "x86"
+			}
+		
 			sources {
 				cpp {
 					// Integration test sources are created from the JUnit test.
@@ -39,17 +62,15 @@ model {
 	}
 	
 	testSuites {
-		integrationTest(GoogleTestTestSuiteSpec) {
+		integrationTest(GoogleTestTestSuiteSpec) {	
 			testing $.components.integration			
 			
 			sources {
 				cpp {
-					lib project: ':gtest', library: 'googleTest'
+					lib project: ':gtest', library: 'googleTest', linkage: 'static'
 				}
 			}
 		}
-		
-
 	}
 	
 	binaries {
@@ -68,8 +89,19 @@ model {
             	// TODO: If gradle supports setting the LD_LIBRARY_PATH for the linker, check if this is a better option
                 linker.args '-L' + jniLibPath, '-ljvm', '-Wl,-rpath=' + jniLibPath
             }
+			else if (toolChain in VisualCpp) {
+				String jniLibPath = javaHome + '/lib'
+				String jniDllPath = javaHome + '/jre/bin/server'
+				
+				linker.args '/LIBPATH:' + jniDllPath, jniLibPath + '/jvm.lib', jniLibPath + '/jawt.lib'
+			}
 		}
 	}
+}
+
+tasks.withType(CppCompile) {
+	includes javaHome + "/include/"
+	includes javaHome + "/include/" + os
 }
  
 // Ensure tests are executed before the binaries are bundled to a jar library

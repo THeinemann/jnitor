@@ -29,8 +29,23 @@ tasks.clean {
 
 // Simple Gradle build script to build google test from sources.
 model {
+    platforms {
+        x86 {
+            architecture "x86"
+        }
+        x64 {
+            architecture "x86_64"
+        }
+    }
+
 	components {
 		googleTest(NativeLibrarySpec) {
+			if (System.properties['java.home'] != 'amd64') {
+				targetPlatform "x64"
+			} else {
+				targetPlatform "x86"
+			}
+		
 			sources {
 				cpp {
 					// Sources have to be retrieved by git before they can be built
