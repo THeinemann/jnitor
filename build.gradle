@@ -18,7 +18,7 @@ String os;
 if (System.properties['os.name'].toUpperCase().contains('WINDOWS')) {
 	os = "win32"
 } else {
-	os = System.properties['java.os'].toLowerCase()
+	os = System.properties['os.name'].toLowerCase()
 }
 
 String javaHome = System.properties['java.home'] + "/.."
