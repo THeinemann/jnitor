@@ -24,12 +24,17 @@
 #include <jni.h>
 
 
+
 JavaVMOption options[1];
 JNIEnv *env;
 JavaVM *jvm;
 
 int main(int argc, char** argv) {
+#ifdef _WIN32
+	options[0].optionString = "-Djava.class.path=..\\..\\classes\\main;..\\..\\classes\\test";
+#else
 	options[0].optionString = "-Djava.class.path=../../classes/main:../../classes/test";
+#endif
 	JavaVMInitArgs vm_args;
 	memset(&vm_args, 0, sizeof(vm_args));
 	vm_args.nOptions = 1;
