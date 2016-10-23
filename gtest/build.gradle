@@ -1,29 +1,29 @@
 apply plugin: 'cpp'
 
 task initializeGoogleTestRepository(type:Exec) {
-	workingDir '..'
-	
-	commandLine 'git', 'submodule', 'init', 'gtest/googletest'
+    workingDir '..'
+    
+    commandLine 'git', 'submodule', 'init', 'gtest/googletest'
 }
 
 task updateGoogleTestRepository(type:Exec) {
-	workingDir '..'
-	
-	dependsOn(initializeGoogleTestRepository)
-	
-	commandLine 'git', 'submodule', 'update',  '--force', 'gtest/googletest'
+    workingDir '..'
+    
+    dependsOn(initializeGoogleTestRepository)
+    
+    commandLine 'git', 'submodule', 'update',  '--force', 'gtest/googletest'
 }
 
 task deinitGoogleTestRepository(type:Exec) {
-	workingDir '..'
-	
-	dependsOn(initializeGoogleTestRepository)
-	
-	commandLine 'git', 'submodule', 'deinit',  '--force', 'gtest/googletest'
+    workingDir '..'
+    
+    dependsOn(initializeGoogleTestRepository)
+    
+    commandLine 'git', 'submodule', 'deinit',  '--force', 'gtest/googletest'
 }
 
 tasks.clean {
-	dependsOn deinitGoogleTestRepository
+    dependsOn deinitGoogleTestRepository
 }
 
 
@@ -38,35 +38,42 @@ model {
         }
     }
 
-	components {
-		googleTest(NativeLibrarySpec) {
-			if (System.properties['java.home'] != 'amd64') {
-				targetPlatform "x64"
-			} else {
-				targetPlatform "x86"
-			}
-		
-			sources {
-				cpp {
-					// Sources have to be retrieved by git before they can be built
-					builtBy tasks.updateGoogleTestRepository
-					
-					source {			
-						srcDir "googletest/googletest/src"
-						include "gtest-all.cc"
-					}
-															
-					exportedHeaders { 
-		                srcDir "googletest/googletest/include"
-		            }
-	            }
+    components {
+        googleTest(NativeLibrarySpec) {
+            if (System.properties['java.home'] != 'amd64') {
+                targetPlatform "x64"
+            } else {
+                targetPlatform "x86"
             }
-		}
-	}
+        
+            sources {
+                cpp {
+                    // Sources have to be retrieved by git before they can be built
+                    builtBy tasks.updateGoogleTestRepository
+                    
+                    source {            
+                        srcDir "googletest/googletest/src"
+                        include "gtest-all.cc"
+                    }
+                                                            
+                    exportedHeaders { 
+                        srcDir "googletest/googletest/include"
+                    }
+                }
+            }
+        }
+    }
+    
+    binaries {
+        all {
+            // Deactivate threading of GTest
+            cppCompiler.define "GTEST_HAS_PTHREAD", "0"
+        }
+    }
 }
 
 // Some includes need this directory. 
 tasks.withType(CppCompile) {
-	includes "googletest/googletest"
+    includes "googletest/googletest"
 }
 
