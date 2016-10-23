@@ -1,9 +1,11 @@
+version: 1.0.{build}
 
-environment:
-  Toolset: v120
+# Gradle 3.1 does not support the Visual Studio 2015 include folder structure,
+#   so we fall back to VS 2013.
+image: Visual Studio 2013
 
 build_script:
-  - gradlew.bat classes
+- cmd: gradlew.bat classes
 
 test_script:
-  - gradlew.bat check
+- cmd: gradlew.bat check
