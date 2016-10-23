@@ -1,0 +1,9 @@
+
+environment:
+  Toolset: v120
+
+build_script:
+  - gradlew.bat classes
+
+test_script:
+  - gradlew.bat check
