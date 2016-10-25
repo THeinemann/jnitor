@@ -54,6 +54,9 @@ int main(int argc, char** argv) {
 	return result;
 }
 
+/**
+ * This test checks that the creation of a new object works correctly.
+ */
 TEST(jnitorTest, createObjectTest) {
 	com::github::theinemann::jnitor::exampleClasses::ExampleClass exampleObject(env);
 
@@ -89,6 +92,10 @@ TEST(jnitorTest, interfaceTest) {
 	ASSERT_EQ(144, exampleInterfaceObject.doSomething(12));
 }
 
+/**
+ * This test checks that calling a static method works correctly.
+ */
 TEST(jnitorTest, staticMethodTest) {
 	ASSERT_DOUBLE_EQ(20.0, com::github::theinemann::jnitor::exampleClasses::ExampleClass::getSquareRoot(env, 400.0));
 }
+
