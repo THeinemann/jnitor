@@ -31,9 +31,9 @@ JavaVM *jvm;
 
 int main(int argc, char** argv) {
 #ifdef _WIN32
-	options[0].optionString = "-Djava.class.path=..\\..\\classes\\main;..\\..\\classes\\test";
+	options[0].optionString = "-Djava.class.path=..\\..\\classes\\test";
 #else
-	options[0].optionString = "-Djava.class.path=../../classes/main:../../classes/test";
+	options[0].optionString = "-Djava.class.path=../../classes/test";
 #endif
 	JavaVMInitArgs vm_args;
 	memset(&vm_args, 0, sizeof(vm_args));
