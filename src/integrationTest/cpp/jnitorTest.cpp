@@ -21,6 +21,7 @@
 
 #include <com.github.theinemann.jnitor.exampleClasses.ExampleClass.h>
 #include <com.github.theinemann.jnitor.exampleClasses.ExampleInterface.h>
+#include <com.github.theinemann.jnitor.JnitorController.h>
 #include <jni.h>
 
 
@@ -97,5 +98,19 @@ TEST(jnitorTest, interfaceTest) {
  */
 TEST(jnitorTest, staticMethodTest) {
 	ASSERT_DOUBLE_EQ(20.0, com::github::theinemann::jnitor::exampleClasses::ExampleClass::getSquareRoot(env, 400.0));
+}
+
+/**
+ * This test checks that trying to access a class that is not in the classpath throws an exception
+ * (but does not crash the program)
+ */
+TEST(jnitorTest, classNotInClassPathTest) {
+	try {
+		// JnitorController is part of the "main" classes (not test), so it is not in the classpath.
+		com::github::theinemann::jnitor::JnitorController exampleObject(env);
+		FAIL() << "Wrapper object was created without error, even though class is not in class path.";
+	} catch (std::runtime_error& e) {
+		return;
+	}
 }
 

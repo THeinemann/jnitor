@@ -85,6 +85,7 @@ private:
 	jobject m_ref;
 
 	static const char* const m_name;
+	static const char* const m_classNotFoundMessage;
 };
 
 [#list packages?reverse as package]

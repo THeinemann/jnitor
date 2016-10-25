@@ -20,6 +20,7 @@ limitations under the License.
  */
 
 #include "${headerFileName}"
+#include <stdexcept>
 
 [#list packages as package]
 namespace ${package} {
@@ -31,6 +32,9 @@ ${classname}::${classname}(JNIEnv *env, jobject ref)
 , m_class(jclass(env->NewGlobalRef(env->FindClass(m_name))))
 , m_ref(env->NewGlobalRef(ref))
 {
+	if (m_class == NULL) {
+		throw std::runtime_error(m_classNotFoundMessage);
+	}
 	// TODO: Assertion of type
 }
 
@@ -40,6 +44,9 @@ ${classname}::${classname}(const ${classname}& other)
 , m_class(jclass(other.m_env->NewGlobalRef(other.m_env->FindClass(m_name))))
 , m_ref(other.m_env->NewGlobalRef(other.m_ref))
 {
+	if (m_class == NULL) {
+		throw std::runtime_error(m_classNotFoundMessage);
+	}
 	// TODO: Assertion of type
 }
 
@@ -53,8 +60,19 @@ ${classname}::${classname}(
 : m_env(env)
 , m_class(jclass(env->NewGlobalRef(env->FindClass(m_name))))
 {
+	if (m_class == NULL) {
+		throw std::runtime_error(m_classNotFoundMessage);
+	}
+
 	static const char signature[] = "${constructor.signature}";
+	static const char methodNotFoundMessage[] = "Constructor for class ${qualifiedName} with signature ${constructor.signature} was not found on class.";
+
 	jmethodID mid = m_env->GetMethodID(m_class, "<init>", signature);
+
+	if (mid == NULL) {
+		throw std::runtime_error(methodNotFoundMessage);
+	}
+
 	m_ref = m_env->NewGlobalRef(m_env->NewObject(
 				m_class, mid[#list constructor.parameters as parameter][#if parameter?is_first],
 				[/#if]${parameter.name}[#sep], [/#sep][/#list]));
@@ -75,15 +93,25 @@ ${method.returnType} ${classname}::${method.name}([#if method.static]JNIEnv *m_e
 {
 	static const char name[] = "${method.name}";
 	static const char signature[] = "${method.signature}";
+	static const char methodNotFoundMessage[] = "Method ${qualifiedName}.${method.name}() with signature ${method.signature} was not found on class.";
 
 	[#if method.static]
 	[#-- For static methods, these values have to be retrieved (because we have no object here) --]
 	jclass m_class = m_env->FindClass(m_name);
 	jclass m_ref = m_class;
 
+	if (m_class == NULL) {
+		throw std::runtime_error(m_classNotFoundMessage);
+	}
+
 	[/#if]
 
 	jmethodID mid = m_env->Get[#if method.static]Static[/#if]MethodID(m_class, name, signature);
+
+	if (mid == NULL) {
+		throw new std::runtime_error(methodNotFoundMessage);
+	}
+
 	[#if !method.void]return ${method.returnType}[/#if](m_env->${method.jniFunction}(
 		m_ref, mid[#list method.parameters as parameter][#if parameter?is_first],
 		[/#if]${parameter.name}[#sep], [/#sep][/#list]));
@@ -91,6 +119,7 @@ ${method.returnType} ${classname}::${method.name}([#if method.static]JNIEnv *m_e
 
 [/#list]
 const char* const ${classname}::m_name = "${jniQualifiedName}";
+const char* const ${classname}::m_classNotFoundMessage = "Class ${qualifiedName} not found in classpath.";
 
 [#list packages?reverse as package]
 } // namespace ${package}

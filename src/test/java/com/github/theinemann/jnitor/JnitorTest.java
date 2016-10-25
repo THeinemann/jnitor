@@ -47,7 +47,8 @@ public class JnitorTest
     {
     	String[] parameters = {"-outputDirectory", "./build/generatedTestSources",
     			"com.github.theinemann.jnitor.exampleClasses.ExampleClass",
-    			"com.github.theinemann.jnitor.exampleClasses.ExampleInterface"};
+    			"com.github.theinemann.jnitor.exampleClasses.ExampleInterface",
+    			"com.github.theinemann.jnitor.JnitorController"};
         Jnitor.main(parameters);
         
     }
