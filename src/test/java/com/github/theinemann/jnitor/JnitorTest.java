@@ -16,6 +16,8 @@
 
 package com.github.theinemann.jnitor;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.net.MalformedURLException;
 
 import org.junit.Test;
@@ -73,5 +75,45 @@ public class JnitorTest
     			"com.github.theinemann.jnitor.exampleClasses.SeparateExampleClass",
     			"com.github.theinemann.jnitor.JnitorController"};
 		Jnitor.main(parameters);
+    }
+    
+    /**
+     * Checks that no exception is thrown when the -k switch is provided.
+     * 
+     * @throws ClassNotFoundException
+     * @throws MalformedURLException
+     */
+    @Test
+    public void testMainKeepGoing() throws ClassNotFoundException, MalformedURLException {
+    	String[] parameters = {"-outputDirectory", "./build/tmp",
+    			"-k",
+    			"non.existing.Class"};
+		Jnitor.main(parameters);
+    }
+    
+    /**
+     * Checks that no exception is thrown when the -k switch is provided.
+     * 
+     * @throws ClassNotFoundException
+     * @throws MalformedURLException
+     */
+    @Test
+    public void testMainNoKeepGoing() {
+    	String[] parameters = {"-outputDirectory", "./build/tmp",
+    			"non.existing.Class"};
+		try {
+			Jnitor.main(parameters);
+		} catch (MalformedURLException e) {
+			StringWriter exceptionMessageStringWriter = new StringWriter();
+			PrintWriter exceptionMessagePrintWriter = new PrintWriter(exceptionMessageStringWriter);
+			e.printStackTrace(exceptionMessagePrintWriter);
+			
+			fail("Wrong exception type MalformedUrlException:\n" + exceptionMessageStringWriter.toString());
+		} catch (ClassNotFoundException e) {
+			// This exception must be thrown, so the test succeeds if we are here.
+			return;
+		}
+		
+		fail("No exception was thrown.");
     }
 }
