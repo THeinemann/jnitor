@@ -20,6 +20,7 @@
 #include <cstdlib>
 
 #include <com.github.theinemann.jnitor.exampleClasses.ExampleClass.h>
+#include <com.github.theinemann.jnitor.exampleClasses.SeparateExampleClass.h>
 #include <com.github.theinemann.jnitor.exampleClasses.ExampleInterface.h>
 #include <com.github.theinemann.jnitor.JnitorController.h>
 #include <jni.h>
@@ -32,9 +33,9 @@ JavaVM *jvm;
 
 int main(int argc, char** argv) {
 #ifdef _WIN32
-	options[0].optionString = "-Djava.class.path=..\\..\\classes\\test";
+	options[0].optionString = "-Djava.class.path=..\\..\\classes\\test;..\\..\\..\\exampleClasses\\build\\classes\\main";
 #else
-	options[0].optionString = "-Djava.class.path=../../classes/test";
+	options[0].optionString = "-Djava.class.path=../../classes/test:../../../exampleClasses/build/classes/main";
 #endif
 	JavaVMInitArgs vm_args;
 	memset(&vm_args, 0, sizeof(vm_args));
@@ -114,3 +115,9 @@ TEST(jnitorTest, classNotInClassPathTest) {
 	}
 }
 
+TEST(jnitorTest, separateClassPathTest) {
+	com::github::theinemann::jnitor::exampleClasses::SeparateExampleClass exampleObject(env);
+
+	std::string helloWorld(env->GetStringUTFChars(exampleObject.greeting(),JNI_FALSE));
+	ASSERT_EQ(std::string("Hello World"), helloWorld);
+}

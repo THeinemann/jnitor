@@ -42,21 +42,36 @@ public class JnitorTest
     }
 
     /**
-     * Rigourous Test :-)
+     * Test to generate C++ code for some classes.
+     * 
+     * @throws ClassNotFoundException Leads to failing test
      */
     @Test
-    public void testMain()
+    public void testMain() throws ClassNotFoundException
     {
     	String[] parameters = {"-outputDirectory", "./build/generatedTestSources",
     			"com.github.theinemann.jnitor.exampleClasses.ExampleClass",
-    			"com.github.theinemann.jnitor.exampleClasses.ExampleInterface",
-    			"com.github.theinemann.jnitor.JnitorController"};
+    			"com.github.theinemann.jnitor.exampleClasses.ExampleInterface"};
 		try {
 			Jnitor.main(parameters);
 		} catch (MalformedURLException e) {
 			// Because we do not provide an URL here, the exception is very unlikely, hence we do not declare it.
 			throw new RuntimeException(e);
 		}
-        
+    }
+    
+    /**
+     * Tests that generation works as desired when a user-defined class path is given
+     * 
+     * @throws ClassNotFoundException Leads to failing test. 
+     * @throws MalformedURLException Leads to failing test.
+     */
+    @Test
+    public void testMainSeparateClassPath() throws ClassNotFoundException, MalformedURLException {
+    	String[] parameters = {"-outputDirectory", "./build/generatedTestSources",
+    			"-classpath", System.getProperty("user.dir") + "/exampleClasses/build/classes/main/",
+    			"com.github.theinemann.jnitor.exampleClasses.SeparateExampleClass",
+    			"com.github.theinemann.jnitor.JnitorController"};
+		Jnitor.main(parameters);
     }
 }

@@ -47,7 +47,7 @@ import com.github.theinemann.jnitor.model.Parameter;
  */
 public class Jnitor 
 {
-    public static void main( String[] args ) throws MalformedURLException
+    public static void main( String[] args ) throws MalformedURLException, ClassNotFoundException
     {
     	Jnitor jnitor = new Jnitor();
     	
@@ -90,7 +90,11 @@ public class Jnitor
 				Class<?> cl = classLoader.loadClass(className);
 				jnitor.writeSingleClass(cl);
 			} catch (ClassNotFoundException e) {
-				System.err.println("Class " + className + " was not found. Will not generate sources for this class.");
+				if (jnitor.keepGoing) {
+					System.err.println("Class " + className + " was not found. Will not generate sources for this class.");
+				} else {
+					throw e; 
+				}
 			}
     		
     	}
@@ -149,13 +153,18 @@ public class Jnitor
 			return;
 		}
 	}
+	
+	@Option(name="-k",
+			usage="Do not abort when a given class is not found.",
+			required = false)
+	private boolean keepGoing = false;
     
     @Option(name="-outputDirectory",
     		usage="The directory where files are written",
     		required=true)
     private File outputDirectory = new File("./src");
     
-    @Option(name="-classPath",
+    @Option(name="-classpath",
     		usage="Specify a custom class path which is searched for the specified classes.",
     		required = false)
     private String classPath = null;

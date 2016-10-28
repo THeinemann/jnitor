@@ -107,6 +107,10 @@ model {
 	}
 }
 
+tasks.test {
+	dependsOn ':exampleClasses:classes'
+}
+
 tasks.withType(CppCompile) {
 	includes javaHome + "/include/"
 	includes javaHome + "/include/" + os
