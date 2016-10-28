@@ -1,3 +1,4 @@
 rootProject.name = 'jnitor'
 
 include 'gtest'
+include 'exampleClasses'

@@ -16,6 +16,8 @@
 
 package com.github.theinemann.jnitor;
 
+import java.net.MalformedURLException;
+
 import org.junit.Test;
 
 import com.github.theinemann.jnitor.Jnitor;
@@ -49,7 +51,12 @@ public class JnitorTest
     			"com.github.theinemann.jnitor.exampleClasses.ExampleClass",
     			"com.github.theinemann.jnitor.exampleClasses.ExampleInterface",
     			"com.github.theinemann.jnitor.JnitorController"};
-        Jnitor.main(parameters);
+		try {
+			Jnitor.main(parameters);
+		} catch (MalformedURLException e) {
+			// Because we do not provide an URL here, the exception is very unlikely, hence we do not declare it.
+			throw new RuntimeException(e);
+		}
         
     }
 }

@@ -3,3 +3,4 @@
 /bin/
 /gtest/build/
 /gtest/.gradle/
+/exampleClasses/build/

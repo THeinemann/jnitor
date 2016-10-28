@@ -23,6 +23,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.ArrayList;
 
 import org.kohsuke.args4j.Argument;
@@ -44,7 +47,7 @@ import com.github.theinemann.jnitor.model.Parameter;
  */
 public class Jnitor 
 {
-    public static void main( String[] args )
+    public static void main( String[] args ) throws MalformedURLException
     {
     	Jnitor jnitor = new Jnitor();
     	
@@ -69,9 +72,22 @@ public class Jnitor
 			System.exit(-1);
 		}
     	
+    	final ClassLoader classLoader;
+    	if (jnitor.classPath != null) {
+    		String[] urlStrings = jnitor.classPath.split(":");
+    		URL[] urls = new URL[urlStrings.length];
+    		for (int i = 0; i < urls.length; ++i) {
+    			urls[i] = new URL("file://" + urlStrings[i]);
+    		}
+    		classLoader = new URLClassLoader(urls, jnitor.getClass().getClassLoader());
+    	}
+    	else {
+    		classLoader = jnitor.getClass().getClassLoader();
+    	}
+    	
     	for (String className : jnitor.classNames ) {
 			try {
-				Class<?> cl = Class.forName(className);
+				Class<?> cl = classLoader.loadClass(className);
 				jnitor.writeSingleClass(cl);
 			} catch (ClassNotFoundException e) {
 				System.err.println("Class " + className + " was not found. Will not generate sources for this class.");
@@ -139,7 +155,11 @@ public class Jnitor
     		required=true)
     private File outputDirectory = new File("./src");
     
+    @Option(name="-classPath",
+    		usage="Specify a custom class path which is searched for the specified classes.",
+    		required = false)
+    private String classPath = null;
+    
     @Argument
     private List<String> classNames = new ArrayList<String>();
-    
 }
