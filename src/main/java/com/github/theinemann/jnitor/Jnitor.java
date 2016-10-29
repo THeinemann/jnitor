@@ -17,6 +17,7 @@
 package com.github.theinemann.jnitor;
 
 import java.util.List;
+import java.util.stream.Collectors;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -27,6 +28,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.CmdLineException;
@@ -77,15 +79,21 @@ public class Jnitor
     	}
     }
     
-    private void initializeClassLoader() throws MalformedURLException {
+    private void initializeClassLoader() throws IllegalArgumentException {
     	if (classPath != null) {
     		
     		String[] urlStrings = classPath.split(":");
-    		URL[] urls = new URL[urlStrings.length];
-    		for (int i = 0; i < urls.length; ++i) {
-    			urls[i] = new URL("file://" + urlStrings[i]);
-    		}
-    		classLoader = new URLClassLoader(urls, this.getClass().getClassLoader());
+    		
+    		List<URL> urls = Arrays.stream(urlStrings).map(x -> {
+				try {
+					return (new File(x).toURI().toURL());
+				} catch (MalformedURLException e) {
+					throw new IllegalArgumentException("Illegal class path entry: " + x, e);
+				}
+			}).collect(Collectors.toList());
+    		
+    		
+    		classLoader = new URLClassLoader(urls.toArray(new URL[0]), this.getClass().getClassLoader());
     		
     	}
     }
@@ -105,7 +113,7 @@ public class Jnitor
 		
 		try {
 			initializeClassLoader();
-		} catch (MalformedURLException e) {
+		} catch (IllegalArgumentException e) {
 			throw new InitializationException("Invalid classpath: " + this.classPath, e);
 		}
 	}

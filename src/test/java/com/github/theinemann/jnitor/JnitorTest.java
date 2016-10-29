@@ -67,7 +67,7 @@ public class JnitorTest
     @Test
     public void testMainSeparateClassPath() {
     	String[] parameters = {"-outputDirectory", "./build/generatedTestSources",
-    			"-classpath", System.getProperty("user.dir") + "/exampleClasses/build/classes/main/",
+    			"-classpath", System.getProperty("user.dir") + "/exampleClasses/build/classes/main",
     			"com.github.theinemann.jnitor.exampleClasses.SeparateExampleClass",
     			"com.github.theinemann.jnitor.JnitorController"};
 		Jnitor.main(parameters);
