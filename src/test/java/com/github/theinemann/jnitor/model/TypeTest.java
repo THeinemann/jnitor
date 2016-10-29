@@ -22,7 +22,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.github.theinemann.jnitor.model.Type;
-import com.github.theinemann.jnitor.wrappers.TypeWrapper;
 
 public class TypeTest {
 

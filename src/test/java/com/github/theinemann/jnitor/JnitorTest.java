@@ -26,7 +26,6 @@ import com.github.theinemann.jnitor.Jnitor;
 import com.github.theinemann.jnitor.exceptions.JnitorRuntimeException;
 
 import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 /**
  * Unit test for simple App.
