@@ -35,7 +35,7 @@ import org.kohsuke.args4j.Option;
 
 import com.github.theinemann.jnitor.exceptions.InitializationException;
 import com.github.theinemann.jnitor.exceptions.JnitorException;
-import com.github.theinemann.jnitor.model.Parameter;
+import com.github.theinemann.jnitor.exceptions.JnitorRuntimeException;
 
 /**
  * Main class for Jnitor program.
@@ -47,7 +47,7 @@ import com.github.theinemann.jnitor.model.Parameter;
  */
 public class Jnitor 
 {
-    public static void main( String[] args ) throws MalformedURLException, ClassNotFoundException
+    public static void main( String[] args )
     {
     	Jnitor jnitor = new Jnitor();
     	
@@ -65,44 +65,32 @@ public class Jnitor
     	}
     	
     	try {
-			jnitor.checkInitialization();
+			jnitor.initialize();
 		} catch (InitializationException e) {
 			System.err.println("Error during initialization: " + e.getMessage());
 			
 			System.exit(-1);
 		}
     	
-    	final ClassLoader classLoader;
-    	if (jnitor.classPath != null) {
-    		String[] urlStrings = jnitor.classPath.split(":");
+    	for (String className : jnitor.classNames ) {
+    		jnitor.writeSingleClass(className);
+    	}
+    }
+    
+    private void initializeClassLoader() throws MalformedURLException {
+    	if (classPath != null) {
+    		
+    		String[] urlStrings = classPath.split(":");
     		URL[] urls = new URL[urlStrings.length];
     		for (int i = 0; i < urls.length; ++i) {
     			urls[i] = new URL("file://" + urlStrings[i]);
     		}
-    		classLoader = new URLClassLoader(urls, jnitor.getClass().getClassLoader());
-    	}
-    	else {
-    		classLoader = jnitor.getClass().getClassLoader();
-    	}
-    	
-    	for (String className : jnitor.classNames ) {
-			try {
-				Class<?> cl = classLoader.loadClass(className);
-				jnitor.writeSingleClass(cl);
-			} catch (ClassNotFoundException e) {
-				if (jnitor.keepGoing) {
-					System.err.println("Class " + className + " was not found. Will not generate sources for this class.");
-				} else {
-					throw e; 
-				}
-			}
+    		classLoader = new URLClassLoader(urls, this.getClass().getClassLoader());
     		
     	}
-    	
-    	
     }
 
-	private void checkInitialization() throws InitializationException {
+	private void initialize() throws InitializationException {
 		if (outputDirectory == null) {
 			throw new InitializationException("Output directory was not set.");
 		}
@@ -114,6 +102,25 @@ public class Jnitor
 		if (!outputDirectory.exists()) {
 			outputDirectory.mkdir();
 		}
+		
+		try {
+			initializeClassLoader();
+		} catch (MalformedURLException e) {
+			throw new InitializationException("Invalid classpath: " + this.classPath, e);
+		}
+	}
+	
+	public void writeSingleClass(String className) {
+		try {
+			Class<?> cl = classLoader.loadClass(className);
+			writeSingleClass(cl);
+		} catch (ClassNotFoundException e) {
+			if (keepGoing) {
+				System.err.println("Class " + className + " was not found. Will not generate sources for this class.");
+			} else {
+				throw new JnitorRuntimeException(e); 
+			}
+		}		
 	}
 
 	public void writeSingleClass(Class<?> clazz) {
@@ -168,6 +175,8 @@ public class Jnitor
     		usage="Specify a custom class path which is searched for the specified classes.",
     		required = false)
     private String classPath = null;
+    
+    private ClassLoader classLoader = this.getClass().getClassLoader();
     
     @Argument
     private List<String> classNames = new ArrayList<String>();
