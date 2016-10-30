@@ -19,6 +19,10 @@ package com.github.theinemann.jnitor.wrappers;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.TreeSet;
 
 import com.github.theinemann.jnitor.exceptions.BadTypeException;
 
@@ -39,6 +43,8 @@ public class TypeWrapper {
 	public TypeWrapper(Class<?> clazz)
 	{
 		cl = clazz;
+		
+		dependentTypes = new HashSet<>();
 	}
 	
 	/**
@@ -267,6 +273,42 @@ public class TypeWrapper {
 		
 		return result;
 	}
+	
+	public Set<TypeWrapper> getDependentTypes() {
+		collectDependentTypes();
+		return new HashSet<>(dependentTypes);
+	}
+	
+	private void collectDependentTypes() {
+		if (cl.isPrimitive()) {
+			return;
+		}
+		
+		Class<?> superclass = cl.getSuperclass();
+		if (superclass != null) {
+			dependentTypes.add(new TypeWrapper(superclass));
+		}
+		
+		Arrays.stream(cl.getInterfaces()).forEach(clazz -> dependentTypes.add(new TypeWrapper(clazz)));
+		
+		
+	}
+	
+	@Override
+	public boolean equals(Object other) {
+		if (other == null) {
+			return false;
+		}
+		
+		return ((other instanceof TypeWrapper) && (((TypeWrapper)other).getWrappedClass().equals(this.cl)));
+	}
+	
+	@Override
+	public int hashCode() {
+		return cl.hashCode();
+	}
+
+	private final Set<TypeWrapper> dependentTypes;
 	
 	private final Class<?> cl;
 }

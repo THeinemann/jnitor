@@ -19,11 +19,14 @@ package com.github.theinemann.jnitor.wrappers;
 import static org.junit.Assert.*;
 
 import java.lang.reflect.Method;
+import java.util.Set;
 
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import com.github.theinemann.jnitor.exampleClasses.ExampleInterface;
+import com.github.theinemann.jnitor.exampleClasses.ExampleInterfaceImpl;
 import com.github.theinemann.jnitor.exceptions.BadTypeException;
 import com.github.theinemann.jnitor.wrappers.TypeWrapper;
 
@@ -98,6 +101,56 @@ public class TypeWrapperTest {
 		assertEquals("jarray", TypeWrapper.getJniType(Integer[].class));
 		assertEquals("jarray", TypeWrapper.getJniType(long[].class));
 		assertEquals("jarray", TypeWrapper.getJniType(boolean[].class));
+	}
+	
+	@Test
+	public void testEquals() {
+		final TypeWrapper typeWrapper1 = new TypeWrapper(Object.class);
+		final TypeWrapper typeWrapper2 = new TypeWrapper(Object.class);
+		
+		assertTrue(typeWrapper1.equals(typeWrapper1));
+		assertTrue(typeWrapper1.equals(typeWrapper2));
+		assertTrue(typeWrapper2.equals(typeWrapper1));
+		assertTrue(typeWrapper2.equals(typeWrapper2));
+		
+		assertEquals(typeWrapper1, typeWrapper2);
+	}
+	
+	@Test
+	public void testHashCode() {
+		final TypeWrapper typeWrapper1 = new TypeWrapper(Object.class);
+		final TypeWrapper typeWrapper2 = new TypeWrapper(Object.class);
+		
+		final TypeWrapper typeWrapper3;
+		if (TypeWrapperTest.class.hashCode() != Object.class.hashCode()) {
+			typeWrapper3 = new TypeWrapper(TypeWrapperTest.class);
+		} else if (TypeWrapper.class.hashCode() != Object.class.hashCode()) {
+			typeWrapper3 = new TypeWrapper(TypeWrapper.class);
+		} else {
+			System.err.println("Warning: TypeWrapperTest and TypeWrapper have the same hash code as Object!");
+			typeWrapper3 = null;
+		}
+		
+		assertEquals(typeWrapper1.hashCode(), typeWrapper2.hashCode());
+		
+		if (typeWrapper3 != null) {
+			assertNotEquals(typeWrapper1.hashCode(), typeWrapper3.hashCode());
+		}
+		
+	}
+	
+	@Test
+	public void testGetDependentTypes() {
+		final TypeWrapper typeWrapper = new TypeWrapper(ExampleInterfaceImpl.class);
+		
+		Set<TypeWrapper> dependentTypes = typeWrapper.getDependentTypes();
+		
+		assertEquals(2, dependentTypes.size());
+		
+		assertTrue(dependentTypes.contains(new TypeWrapper(Object.class)));
+		assertTrue(dependentTypes.contains(new TypeWrapper(ExampleInterface.class)));
+		
+		assertFalse(dependentTypes.contains(new TypeWrapper(ExampleInterfaceImpl.class)));
 	}
 
 }
