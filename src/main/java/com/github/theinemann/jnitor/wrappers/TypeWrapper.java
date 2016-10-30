@@ -22,7 +22,6 @@ import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.TreeSet;
 
 import com.github.theinemann.jnitor.exceptions.BadTypeException;
 
@@ -284,6 +283,10 @@ public class TypeWrapper {
 			return;
 		}
 		
+		if (!dependentTypes.isEmpty()) {
+			return;
+		}
+		
 		Class<?> superclass = cl.getSuperclass();
 		if (superclass != null) {
 			dependentTypes.add(new TypeWrapper(superclass));
@@ -291,7 +294,18 @@ public class TypeWrapper {
 		
 		Arrays.stream(cl.getInterfaces()).forEach(clazz -> dependentTypes.add(new TypeWrapper(clazz)));
 		
-		
+		for (Method method : cl.getMethods()) {
+			Class<?> returnType = method.getReturnType();
+			if (!returnType.isPrimitive()) {
+				dependentTypes.add(new TypeWrapper(method.getReturnType()));
+			}
+			
+			for (Class<?> paramType : method.getParameterTypes()) {
+				if (!paramType.isPrimitive()) {
+					dependentTypes.add(new TypeWrapper(paramType));
+				}
+			}
+		}
 	}
 	
 	@Override

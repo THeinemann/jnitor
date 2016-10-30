@@ -40,5 +40,15 @@ public class ExampleInterfaceImpl implements ExampleInterface {
 	public int doSomething(int x) {
 		return x*x;
 	}
+	
+	/**
+	 * Returns a new example class object, whose magic number is set to the hash code of the string parameter.
+	 * 
+	 * @param stringToHash The string whose has code will be the magic number of the returned example class object
+	 * @return An ExampleClass object.
+	 */
+	public ExampleClass getExampleClass(String stringToHash) {
+		return new ExampleClass(stringToHash.hashCode());
+	}
 
 }

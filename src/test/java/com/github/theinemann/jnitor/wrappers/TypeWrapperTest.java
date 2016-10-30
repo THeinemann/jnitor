@@ -25,6 +25,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import com.github.theinemann.jnitor.exampleClasses.ExampleClass;
 import com.github.theinemann.jnitor.exampleClasses.ExampleInterface;
 import com.github.theinemann.jnitor.exampleClasses.ExampleInterfaceImpl;
 import com.github.theinemann.jnitor.exceptions.BadTypeException;
@@ -139,18 +140,34 @@ public class TypeWrapperTest {
 		
 	}
 	
+	/**
+	 * 
+	 * Dependent types are:
+	 * - java.lang.Object (super class)
+	 * - ExampleInterface (implemented interface)
+	 * - String (parameter type of method getExampleClass)
+	 * - ExampleClass (return type of method getExampleClass)
+	 * - Class (return type of method getClass, inherited from Object)
+	 * 
+	 */
 	@Test
 	public void testGetDependentTypes() {
 		final TypeWrapper typeWrapper = new TypeWrapper(ExampleInterfaceImpl.class);
 		
 		Set<TypeWrapper> dependentTypes = typeWrapper.getDependentTypes();
 		
-		assertEquals(2, dependentTypes.size());
+		assertEquals(5, dependentTypes.size());
 		
 		assertTrue(dependentTypes.contains(new TypeWrapper(Object.class)));
 		assertTrue(dependentTypes.contains(new TypeWrapper(ExampleInterface.class)));
 		
+		assertTrue(dependentTypes.contains(new TypeWrapper(String.class)));
+		assertTrue(dependentTypes.contains(new TypeWrapper(ExampleClass.class)));
+		assertTrue(dependentTypes.contains(new TypeWrapper(Class.class)));
+		
 		assertFalse(dependentTypes.contains(new TypeWrapper(ExampleInterfaceImpl.class)));
+		assertFalse(dependentTypes.contains(new TypeWrapper(int.class)));
+		assertFalse(dependentTypes.contains(new TypeWrapper(void.class)));
 	}
 
 }
