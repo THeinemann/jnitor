@@ -27,7 +27,15 @@ package com.github.theinemann.jnitor.exampleClasses;
 public class ExampleInterfaceImpl implements ExampleInterface {
 
 	public ExampleInterfaceImpl() {
-		// TODO Auto-generated constructor stub
+		this.name = "default";
+	}
+	
+	public ExampleInterfaceImpl(String name) {
+		this.name = name;
+	}
+	
+	public ExampleInterfaceImpl(StringBuffer name) {
+		this.name = name.toString();
 	}
 
 	/**
@@ -50,5 +58,16 @@ public class ExampleInterfaceImpl implements ExampleInterface {
 	public ExampleClass getExampleClass(String stringToHash) {
 		return new ExampleClass(stringToHash.hashCode());
 	}
+	
+	/**
+	 * Returns the name of this object.
+	 * 
+	 * @return The name of this object.
+	 */
+	public String getName() {
+		return name;
+	}
+	
+	final String name;
 
 }

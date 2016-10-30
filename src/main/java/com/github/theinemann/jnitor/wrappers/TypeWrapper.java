@@ -306,6 +306,14 @@ public class TypeWrapper {
 				}
 			}
 		}
+		
+		for (Constructor<?> method : cl.getConstructors()) {
+			for (Class<?> paramType : method.getParameterTypes()) {
+				if (!paramType.isPrimitive()) {
+					dependentTypes.add(new TypeWrapper(paramType));
+				}
+			}
+		}
 	}
 	
 	@Override

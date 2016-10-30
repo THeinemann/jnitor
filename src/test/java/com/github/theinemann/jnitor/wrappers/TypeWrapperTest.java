@@ -156,7 +156,7 @@ public class TypeWrapperTest {
 		
 		Set<TypeWrapper> dependentTypes = typeWrapper.getDependentTypes();
 		
-		assertEquals(5, dependentTypes.size());
+		assertEquals(6, dependentTypes.size());
 		
 		assertTrue(dependentTypes.contains(new TypeWrapper(Object.class)));
 		assertTrue(dependentTypes.contains(new TypeWrapper(ExampleInterface.class)));
@@ -164,6 +164,8 @@ public class TypeWrapperTest {
 		assertTrue(dependentTypes.contains(new TypeWrapper(String.class)));
 		assertTrue(dependentTypes.contains(new TypeWrapper(ExampleClass.class)));
 		assertTrue(dependentTypes.contains(new TypeWrapper(Class.class)));
+		
+		assertTrue(dependentTypes.contains(new TypeWrapper(StringBuffer.class)));
 		
 		assertFalse(dependentTypes.contains(new TypeWrapper(ExampleInterfaceImpl.class)));
 		assertFalse(dependentTypes.contains(new TypeWrapper(int.class)));
